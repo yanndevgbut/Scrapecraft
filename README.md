@@ -2,11 +2,11 @@
 
 <img src="assets/banner.jpg" alt="ScrapeCraft" width="640">
 
-# ScrapeCraft
+# ScrapeCraft v2.0 Enterprise
 
 **A high-precision, production-grade web scraping AI agent skill.**
 
-Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Built for terminal-ready execution with live DOM inspection, direct state extraction, internal API sniffing, and sandboxed self-correction.
+Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Powered by an integrated **6-Role Virtual Engineering Team** with live DOM inspection, SSR state extraction, internal API reverse-engineering, and sandboxed self-correction.
 
 [![Stars](https://img.shields.io/github/stars/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/stargazers)
 [![Forks](https://img.shields.io/github/forks/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/network/members)
@@ -15,7 +15,7 @@ Eliminates selector hallucinations, simulated mock data, nested try-catch maskin
 [![Repo Size](https://img.shields.io/github/repo-size/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft)
 [![License](https://img.shields.io/github/license/yanndevgbut/scrapecraft?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [What's Inside](#whats-inside) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Capabilities](#capabilities--stacks) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
+[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Playbooks](#35-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
 
 </div>
 
@@ -25,42 +25,127 @@ Eliminates selector hallucinations, simulated mock data, nested try-catch maskin
 
 AI coding agents frequently generate fragile, non-functional web scraping scripts. They guess DOM selectors without inspecting real pages, inject mock data or placeholder variables (`TODO`, `your_api_key`), pollute code with emojis and decorative comments, wrap failing logic in nested `try-except: pass` blocks, and become trapped in circular reasoning when encountering anti-bot mechanisms.
 
-**ScrapeCraft resolves this completely.** It is a modular skill and knowledge pack engineered for AI coding agents (OpenCode, Claude Code, Codex, Antigravity, Cursor) that enforces the discipline of a **Senior Web Scraping Engineer**:
+**ScrapeCraft resolves this completely.** It is an enterprise skill and knowledge pack engineered for AI coding agents (OpenCode, Claude Code, Codex, Antigravity, Cursor) that enforces the collective discipline of a **6-Role Virtual Engineering Team**:
 
 - **Direct State Extraction**: Discovers and parses SSR hydration state (`__NEXT_DATA__`, `__NUXT_DATA__`, JSON-LD) directly for 100x faster, redesign-immune extraction.
 - **Internal API Reverse-Engineering**: Sniffs XHR/Fetch network traffic to extract clean JSON REST/GraphQL endpoints before resorting to heavy browser rendering.
-- **Real-Time DOM Inspection**: Derives 100% of HTML selectors from live DOM snapshots rather than training-data hallucination.
 - **Resilient Multi-Tier Selectors**: Implements 4-tier fallback selector chains (Data attributes → Semantic classes → XPath anchors) to prevent selector breakage.
 - **Automated Data Normalization**: Sanitizes currency strings to floats, cleans whitespace and HTML entities, and resolves all relative URLs to absolute HTTPS links.
+- **Domain-Specific Scrapers**: Tailored extraction engines for E-Commerce, Social Media, Real Estate, Financial Markets, Job Portals, Travel, News, and Business Leads.
+- **Document & Stream Pipelines**: Extracts tabular data from PDFs, parses massive XML Sitemaps/RSS feeds, downloads high-res media streams, and captures live WebSockets.
 - **Sandboxed Verification**: Executes draft code inside an isolated local runtime (`/tmp/scrapecraft_<session>/`) with strict 45-second timeout constraints.
 - **Deterministic Self-Correction**: Enforces a strict linear correction protocol (maximum 3 iterations) with fail-fast escalation when encountering structural blockers.
 - **Zero Simulation**: Permanently bans mock datasets, placeholder tokens, and decorative comments from final output.
 
 ---
 
-## What's Inside
+## Virtual Dev Team Architecture
 
-| Layer | Component | Description |
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    SCRAPECRAFT VIRTUAL DEV TEAM                         │
+└─────────────────────────────────────────────────────────────────────────┘
+                                   │
+       ┌───────────────────────────┴───────────────────────────┐
+       ▼                                                       ▼
+┌──────────────────────────────┐              ┌──────────────────────────────┐
+│ 1. Principal Scrape Architect│              │ 2. Recon & Sniffer Engineer  │
+│ - Extraction strategy design │              │ - SSR state (__NEXT_DATA__)  │
+│ - Language & framework lead  │              │ - Internal REST/GraphQL map  │
+│ - Pipeline orchestration     │              │ - Live DOM selector hierarchy│
+└──────────────────────────────┘              └──────────────────────────────┘
+       │                                                       │
+       ├───────────────────────────┬───────────────────────────┤
+       ▼                           ▼                           ▼
+┌──────────────────────────┐ ┌──────────────────────────┐ ┌──────────────────────────┐
+│ 3. Stealth & Evasion Eng │ │ 4. Core Scraper Dev      │ │ 5. Data & ETL Engineer   │
+│ - TLS JA3/JA4 impersonate│ │ - Async non-blocking code│ │ - Schema normalization   │
+│ - Browser fingerprinting │ │ - Resilient fallbacks    │ │ - Price, date, URL sanit │
+│ - Rate limiting & backoff│ │ - Pagination & streams   │ │ - Multi-format exporters │
+└──────────────────────────┘ └──────────────────────────┘ └──────────────────────────┘
+                                   │
+                                   ▼
+                      ┌──────────────────────────────┐
+                      │ 6. QA & Sandbox Gatekeeper   │
+                      │ - 45s timeout execution      │
+                      │ - Zero-simulation enforcement│
+                      │ - Validates data integrity   │
+                      └──────────────────────────────┘
+```
+
+| Role | Core Responsibility | Quality Standard |
 |---|---|---|
-| `SKILL.md` | Master System Prompt | Core agent instructions, persona enforcement, forbidden token filters, tool permissions, and reference routing |
-| `references/` | 11 Task Playbooks | Drill-down engineering specifications loaded on demand to conserve agent context window |
-| `scripts/` | Execution Tooling | Native bash sandbox runner with process isolation and output quality verification scripts |
-| `install.sh` | Universal Installer | One-command installation script supporting all standard agent skill directories |
-| `assets/` | Visual Assets | Repository branding and visual documentation artifacts |
+| **1. Principal Architect** | High-level system design, extraction paradigm selection, tech stack recommendation | Evaluates State vs. API vs. DOM; formulates definitive 1-sentence recommendation |
+| **2. Recon & Sniffer** | Target payload inspection, SSR state discovery, background API interception | Captures `__NEXT_DATA__`, hidden endpoints, and verified DOM selectors |
+| **3. Stealth Engineer** | Anti-bot bypass, TLS fingerprinting, browser evasion, rate limiting | Configures `curl_cffi` JA3/JA4 impersonation, stealth flags, and jitter delays |
+| **4. Core Scraper Dev** | Production-ready script authoring, resilient fallbacks, streaming pagination | Clean async code, 4-tier selector hierarchy, stdout data streams |
+| **5. Data & ETL Engineer** | Data sanitization, schema typing, price/date normalizers, absolute URL resolution | Pydantic/Zod schemas, floats for prices, ISO-8601 timestamps, HTTPS links |
+| **6. QA Gatekeeper** | Isolated sandbox test runs, timeout enforcement, token audits, pre-delivery sign-off | Exit code 0, non-empty results, zero forbidden tokens, verified JSON schema |
 
-### Reference Playbook Inventory
+---
 
-- **`references/workflow.md`**: 8-phase execution lifecycle from request clarification to sandboxed delivery.
-- **`references/state-extraction.md`**: Direct extraction from Next.js `__NEXT_DATA__`, Nuxt state, and Schema.org JSON-LD blobs.
-- **`references/api-sniffing.md`**: Sniffing and reverse-engineering background REST and GraphQL endpoints.
-- **`references/data-normalization.md`**: Sanitizing price values, ISO dates, relative URL resolution, and Pydantic/Zod schemas.
-- **`references/resilient-selectors.md`**: 4-tier fallback selector architecture for resilient HTML extraction.
-- **`references/browser-inspection.md`**: Protocol for headless browser DOM extraction and selector hierarchy verification.
-- **`references/python-scraping.md`**: Production CLI templates for `httpx`, `parsel`, `selectolax`, `playwright`, and `pydantic`.
-- **`references/nodejs-scraping.md`**: Production CLI templates for `playwright`, `puppeteer`, `cheerio`, `axios`, and `got`.
-- **`references/anti-detection.md`**: Evasion patterns for Cloudflare challenges, TLS JA3/JA4 fingerprinting via `curl_cffi`, and browser stealth flags.
-- **`references/validation.md`**: 6-step automated validation pipeline checking exit codes, JSON validity, data density, and token hygiene.
-- **`references/error-correction.md`**: Linear self-correction protocol with bounded iteration budgets and diagnostic escalation schemas.
+## 35 Specialized Engineering Playbooks
+
+The `references/` directory contains 35 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
+
+### 1. Core Architecture & Workflow
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/workflow.md` | 8-phase execution lifecycle | End-to-end task orchestration |
+| `references/dev-team-architecture.md` | Multi-role virtual team protocol | Handover contracts & quality gates |
+| `references/browser-inspection.md` | Live DOM & network panel analysis | Headless browser DOM capture |
+| `references/resilient-selectors.md` | 4-tier fallback selector hierarchy | Data attributes, BEM classes, XPath anchors |
+
+### 2. Domain-Specific Data Scraping
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/domain-ecommerce.md` | Catalogs, variants, stock, reviews | Shopify JSON, Amazon, Shopee, Tokopedia |
+| `references/domain-social-media.md` | Feeds, comments, author profiles | Reddit JSON, X/Twitter, TikTok, YouTube |
+| `references/domain-jobs-recruitment.md` | Job listings, salaries, skill tags | JobPosting Schema, Greenhouse, LinkedIn |
+| `references/domain-real-estate.md` | Property specs, map bounding boxes | Zillow, Redfin, SingleFamilyResidence Schema |
+| `references/domain-news-articles.md` | Article text, author bylines, dates | NewsArticle Schema, Readability body parsing |
+| `references/domain-financial-market.md` | Real-time tickers, OHLCV, SEC EDGAR | Yahoo Finance API, SEC CIK company facts |
+| `references/domain-travel-hospitality.md` | Hotel date matrices, room availability | Booking.com, Agoda, LodgingBusiness Schema |
+| `references/domain-directories-leads.md` | Business directories, emails, phones | LocalBusiness Schema, E.164 phone cleaner |
+
+### 3. Extraction Strategies & Network Protocols
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/state-extraction.md` | SSR hydration state parsing | Next.js `__NEXT_DATA__`, Nuxt, JSON-LD |
+| `references/api-sniffing.md` | Reverse-engineering hidden REST APIs | XHR/Fetch network interception |
+| `references/graphql-scraping.md` | GraphQL queries & cursor pagination | GraphQL POST operations & variables |
+| `references/websocket-stream-scraping.md` | Real-time WebSocket & SSE streams | `wss://` listeners, Server-Sent Events |
+| `references/iframe-shadow-dom.md` | Nested iframes & Web Components | Playwright FrameLocators, Shadow DOM |
+| `references/pagination-patterns.md` | Cursors, offset/pages, infinite scroll | Next-link traversal, dynamic scroll wait |
+| `references/authentication-sessions.md` | Persistent login sessions & cookies | Playwright `storage_state`, session cookies |
+
+### 4. Documents & Media Pipelines
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/document-pdf-table-extraction.md` | Tabular PDF extraction | `pdfplumber`, `pypdf`, stream parsing |
+| `references/xml-sitemap-rss-scraping.md` | Mass URL discovery & RSS feeds | `sitemap.xml`, sitemap index, Atom feeds |
+| `references/media-asset-downloading.md` | Chunked high-res media streams | Async chunked downloading, MD5 hashing |
+
+### 5. Frameworks & Libraries
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/python-scraping.md` | Production Python CLI standard | `httpx`, `parsel`, `pydantic`, `argparse` |
+| `references/scrapy-architecture.md` | Distributed Scrapy crawling | `scrapy.Spider`, `CrawlerProcess`, Pipelines |
+| `references/playwright-deepdive.md` | Route aborting & CDP commands | Block images/CSS (80% bandwidth save), CDP |
+| `references/nodejs-scraping.md` | Production Node.js CLI standard | `cheerio`, `axios`, `got`, CLI args |
+| `references/puppeteer-stealth.md` | Node.js stealth automation | `puppeteer-extra-plugin-stealth`, CDP |
+| `references/httpx-curl-cffi.md` | TLS JA3/JA4 browser impersonation | `curl_cffi` (Chrome 131 profile), HTTP/2 |
+
+### 6. Anti-Detection, ETL & Quality Control
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/anti-detection.md` | Cloudflare Turnstile & WAF bypass | Fingerprint spoofing, header ordering |
+| `references/proxy-rotation-gateways.md` | Residential proxy pools & backoff | Sticky/rotating proxy pools, jitter retry |
+| `references/concurrency-rate-limiting.md` | Asyncio semaphores & token bucket | Concurrency controls, exponential backoff |
+| `references/data-normalization.md` | Currency parsing, ISO dates, URLs | `clean_text`, `parse_price`, `resolve_url` |
+| `references/storage-database-pipelines.md` | Relational & analytics storage | SQLite, PostgreSQL, DuckDB, Parquet |
+| `references/validation.md` | 6-stage automated quality pipeline | Exit code, token hygiene, schema audit |
+| `references/error-correction.md` | Linear self-correction protocol | Bounded 3-iteration root cause fixes |
 
 ---
 
@@ -75,18 +160,42 @@ scrapecraft/
 ├── .gitignore                        # Cache, environment, and temp directory exclusions
 ├── assets/
 │   └── banner.jpg                    # Repository hero banner
-├── references/                       # Subsystem playbooks (loaded on demand)
-│   ├── workflow.md                   # 8-phase linear execution lifecycle
-│   ├── state-extraction.md           # SSR state (__NEXT_DATA__, JSON-LD, Nuxt)
-│   ├── api-sniffing.md               # Reverse-engineering background REST/GraphQL APIs
-│   ├── data-normalization.md         # Price parsing, URL resolving, schema validation
-│   ├── resilient-selectors.md        # 4-tier fallback selector architecture
-│   ├── browser-inspection.md         # Live DOM analysis & selector hierarchy
-│   ├── python-scraping.md            # Python architectures (CLI args, streaming NDJSON)
-│   ├── nodejs-scraping.md            # Node.js architectures (CLI args, streaming NDJSON)
-│   ├── anti-detection.md             # Evasion strategies (TLS impersonation, stealth)
+├── references/                       # 35 Specialized engineering playbooks
+│   ├── workflow.md                   # 8-phase execution lifecycle
+│   ├── dev-team-architecture.md      # 6-role virtual team protocol
+│   ├── browser-inspection.md         # Live DOM & network panel analysis
+│   ├── resilient-selectors.md        # 4-tier fallback selector hierarchy
+│   ├── domain-ecommerce.md           # E-commerce product catalogs & variants
+│   ├── domain-social-media.md        # Social feeds & recursive comment trees
+│   ├── domain-jobs-recruitment.md    # Job listings, salary ranges & skills
+│   ├── domain-real-estate.md         # Property specs & map bounding boxes
+│   ├── domain-news-articles.md       # Article readability & author bylines
+│   ├── domain-financial-market.md    # Real-time tickers & SEC EDGAR filings
+│   ├── domain-travel-hospitality.md  # Hotel date matrices & room availability
+│   ├── domain-directories-leads.md   # Business directories & lead extraction
+│   ├── state-extraction.md           # Next.js __NEXT_DATA__, Nuxt, JSON-LD
+│   ├── api-sniffing.md               # Reverse-engineering background REST APIs
+│   ├── graphql-scraping.md           # GraphQL queries & cursor pagination
+│   ├── websocket-stream-scraping.md  # WebSocket (WSS) & SSE streaming data
+│   ├── iframe-shadow-dom.md          # Penetrating nested iframes & Shadow DOM
+│   ├── pagination-patterns.md        # Cursors, offset/pages, infinite scroll
+│   ├── authentication-sessions.md    # StorageState, cookies, login automation
+│   ├── document-pdf-table-extraction.md # Tabular PDF extraction with pdfplumber
+│   ├── xml-sitemap-rss-scraping.md   # XML sitemaps index & RSS feed parser
+│   ├── media-asset-downloading.md    # Chunked media streaming & MD5 hashing
+│   ├── python-scraping.md            # Python CLI architecture (httpx, parsel)
+│   ├── scrapy-architecture.md        # Standalone Scrapy spiders & pipelines
+│   ├── playwright-deepdive.md        # Route aborts, CDP commands, wait strategies
+│   ├── nodejs-scraping.md            # Node.js CLI architecture (cheerio, axios)
+│   ├── puppeteer-stealth.md          # Puppeteer Extra Stealth & evasion
+│   ├── httpx-curl-cffi.md            # TLS JA3/JA4 browser impersonation
+│   ├── anti-detection.md             # Cloudflare Turnstile & WAF bypass
+│   ├── proxy-rotation-gateways.md    # Residential proxy pools & backoff
+│   ├── concurrency-rate-limiting.md  # Asyncio semaphores & token bucket limiters
+│   ├── data-normalization.md         # Price parsing, ISO dates, absolute URLs
+│   ├── storage-database-pipelines.md # SQLite, PostgreSQL, DuckDB, Parquet
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
-│   └── error-correction.md           # Linear self-correction rules (max 3 iterations)
+│   └── error-correction.md           # Linear self-correction protocol (max 3 tries)
 └── scripts/
     ├── sandbox-run.sh                # Isolated script execution runner (45s timeout)
     └── validate-output.sh            # Automated syntax, token, and data density auditor
@@ -138,8 +247,6 @@ cd scrapecraft
 
 #### Claude Code
 
-Claude Code auto-discovers skills placed in user or project skill directories:
-
 ```bash
 # Global
 git clone https://github.com/yanndevgbut/scrapecraft.git ~/.claude/skills/scrapecraft
@@ -151,8 +258,6 @@ git clone https://github.com/yanndevgbut/scrapecraft.git .claude/skills/scrapecr
 Verify the skill inside a Claude Code session by typing `/skills`.
 
 #### OpenCode
-
-OpenCode scans configured skill paths and native directories automatically:
 
 ```bash
 # Global
@@ -166,13 +271,11 @@ OpenCode loads ScrapeCraft on demand via the native `skill({ name: "scrapecraft"
 
 #### Codex (OpenAI)
 
-Clone into your workspace and reference via `AGENTS.md`:
-
 ```bash
 git clone https://github.com/yanndevgbut/scrapecraft.git .agents/skills/scrapecraft
 ```
 
-Add the following block to your `AGENTS.md` (or `~/.codex/AGENTS.md`):
+Add to your `AGENTS.md` (or `~/.codex/AGENTS.md`):
 
 ```markdown
 ## ScrapeCraft
@@ -184,11 +287,11 @@ Always inspect the target DOM before writing selectors and test code in a sandbo
 
 #### Antigravity (Google)
 
-Install to `.agents/skills/scrapecraft` and add the pointer snippet to your `GEMINI.md` or `AGENTS.md`:
-
 ```bash
 git clone https://github.com/yanndevgbut/scrapecraft.git .agents/skills/scrapecraft
 ```
+
+Add to your `GEMINI.md` or `AGENTS.md`:
 
 ```markdown
 ## Web Scraping Tasks
@@ -212,32 +315,32 @@ scripts in the sandbox before returning code to the user.
        │
        ▼
 ┌──────────────────────────────────────┐
-│  1. Receive & Clarify Schema         │ ── Extract URL, target fields, output format
+│  1. Receive & Clarify Schema         │ ── Principal Architect: Extract target parameters
 └──────────────────────────────────────┘
        │
        ▼
 ┌──────────────────────────────────────┐
-│  2. Target Inspection & Sniffing     │ ── 1. Check SSR State (__NEXT_DATA__, JSON-LD)
-└──────────────────────────────────────┘    2. Sniff background REST/GraphQL endpoints
-       │                                    3. Analyze DOM & multi-tier fallback selectors
+│  2. Target Inspection & Sniffing     │ ── Recon Engineer: 1. Check SSR State (__NEXT_DATA__)
+└──────────────────────────────────────┘                    2. Sniff background REST/GraphQL APIs
+       │                                                    3. Analyze DOM & multi-tier fallbacks
        ▼
 ┌──────────────────────────────────────┐
-│  3. Recommend Optimal Strategy       │ ── 1-sentence technical justification
+│  3. Recommend Optimal Strategy       │ ── Principal Architect: 1-sentence technical justification
 └──────────────────────────────────────┘
        │
        ▼
 ┌──────────────────────────────────────┐
-│  4. Write Production CLI Code        │ ── Normalize data (prices, URLs), resilient selectors
+│  4. Write Production CLI Code        │ ── Core Dev & ETL Engineer: Normalizers, fallbacks, CLI args
 └──────────────────────────────────────┘
        │
        ▼
 ┌──────────────────────────────────────┐
-│  5. Sandboxed Test Run               │ ── Execute in /tmp/scrapecraft_<id>/ (timeout: 45s)
+│  5. Sandboxed Test Run               │ ── QA Gatekeeper: Execute in /tmp/ (timeout: 45s)
 └──────────────────────────────────────┘
        │
        ▼
 ┌──────────────────────────────────────┐
-│  6. Validate Output & Quality        │ ── Check exit code 0, non-empty data, JSON validity
+│  6. Validate Output & Quality        │ ── QA Gatekeeper: Check exit code 0, density, JSON schema
 └──────────────────────────────────────┘
        │
        ├─► [ Failed ] ── Linear correction (max 3 attempts) ──┐
@@ -247,39 +350,6 @@ scripts in the sandbox before returning code to the user.
 │  7. Deliver Tested CLI Scraper       │             │  Escalate Issue  │
 └──────────────────────────────────────┘             └──────────────────┘
 ```
-
----
-
-## Capabilities & Stacks
-
-### Python Scraping Ecosystem
-
-| Library | Role | Primary Use Case |
-|---|---|---|
-| `httpx` + `parsel` | Fast HTTP Parser | Default recommendation for static web pages and high-concurrency jobs |
-| `selectolax` | C-Engine Parser | Ultra-high-speed parsing for large HTML documents |
-| `playwright` | Headless Browser | Single-Page Applications (SPAs), hydration-dependent DOMs, dynamic scrolling |
-| `curl_cffi` | TLS Impersonation | Bypassing JA3/JA4 TLS fingerprinting and Cloudflare JS challenges |
-| `pydantic` | Schema Enforcement | Strict field typing, currency sanitization, and data normalization |
-| `scrapy` | Enterprise Framework | Large-scale multi-tier crawling with middleware pipelines |
-
-### Node.js Scraping Ecosystem
-
-| Library | Role | Primary Use Case |
-|---|---|---|
-| `cheerio` + `axios` | Fast HTTP Parser | Lightweight, high-throughput extraction for static HTML |
-| `playwright` | Headless Engine | Multi-browser automation (Chromium, Firefox, WebKit) with network interception |
-| `puppeteer` | Chrome Engine | Direct Chrome DevTools Protocol (CDP) manipulation and extraction |
-| `got` | Advanced HTTP | Resilient HTTP streaming, automatic retries, and pagination |
-
-### Anti-Detection Capabilities
-
-| Threat Vector | Mitigation Strategy | Reference Implementation |
-|---|---|---|
-| **TLS Fingerprinting** | Chrome 131 JA3/JA4 cipher suite impersonation | `curl_cffi` impersonate engine |
-| **Automation Flags** | Mask `navigator.webdriver`, mock `navigator.plugins` | Playwright init scripts & launch flags |
-| **Rate Limiting (429)** | Jittered exponential delay scheduling (`1.5s - 3.5s`) | Built-in sleep and backoff loops |
-| **Dynamic SPAs** | `networkidle` lifecycle event synchronization | Playwright explicit wait strategies |
 
 ---
 
@@ -365,6 +435,7 @@ Users are responsible for ensuring that their scraping activities comply with:
 - [Parsel](https://parsel.readthedocs.io/) & [Scrapy](https://scrapy.org/) by the Zyte / Scrapy team.
 - [HTTPX](https://www.python-httpx.org/) & [Cheerio](https://cheerio.js.org/) for fast HTTP and DOM parsing.
 - [curl_cffi](https://github.com/yifeikong/curl_cffi) for TLS fingerprint impersonation.
+- [pdfplumber](https://github.com/jsvine/pdfplumber) for table extraction from PDF documents.
 
 ---
 
