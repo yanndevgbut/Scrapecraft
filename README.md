@@ -6,14 +6,14 @@
 
 **A high-precision, production-grade web scraping AI agent skill.**
 
-Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Built for terminal-ready execution with live DOM inspection and sandboxed self-correction.
+Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Built for terminal-ready execution with live DOM inspection, direct state extraction, internal API sniffing, and sandboxed self-correction.
 
-[![Stars](https://img.shields.io/github/stars/anomalyco/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/anomalyco/scrapecraft/stargazers)
-[![Forks](https://img.shields.io/github/forks/anomalyco/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/anomalyco/scrapecraft/network/members)
-[![Issues](https://img.shields.io/github/issues/anomalyco/scrapecraft?style=flat-square)](https://github.com/anomalyco/scrapecraft/issues)
-[![Last Commit](https://img.shields.io/github/last-commit/anomalyco/scrapecraft?style=flat-square)](https://github.com/anomalyco/scrapecraft/commits)
-[![Repo Size](https://img.shields.io/github/repo-size/anomalyco/scrapecraft?style=flat-square)](https://github.com/anomalyco/scrapecraft)
-[![License](https://img.shields.io/github/license/anomalyco/scrapecraft?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/stargazers)
+[![Forks](https://img.shields.io/github/forks/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/network/members)
+[![Issues](https://img.shields.io/github/issues/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft/issues)
+[![Last Commit](https://img.shields.io/github/last-commit/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft/commits)
+[![Repo Size](https://img.shields.io/github/repo-size/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft)
+[![License](https://img.shields.io/github/license/yanndevgbut/scrapecraft?style=flat-square)](LICENSE)
 
 [Overview](#overview) · [What's Inside](#whats-inside) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Capabilities](#capabilities--stacks) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
 
@@ -27,8 +27,11 @@ AI coding agents frequently generate fragile, non-functional web scraping script
 
 **ScrapeCraft resolves this completely.** It is a modular skill and knowledge pack engineered for AI coding agents (OpenCode, Claude Code, Codex, Antigravity, Cursor) that enforces the discipline of a **Senior Web Scraping Engineer**:
 
-- **Real-Time DOM Inspection**: Derives 100% of selectors from live DOM snapshots rather than training-data hallucination.
-- **Production-Ready Code**: Generates clean, robust Python and Node.js scrapers with explicit error handling and structured JSON/CSV output.
+- **Direct State Extraction**: Discovers and parses SSR hydration state (`__NEXT_DATA__`, `__NUXT_DATA__`, JSON-LD) directly for 100x faster, redesign-immune extraction.
+- **Internal API Reverse-Engineering**: Sniffs XHR/Fetch network traffic to extract clean JSON REST/GraphQL endpoints before resorting to heavy browser rendering.
+- **Real-Time DOM Inspection**: Derives 100% of HTML selectors from live DOM snapshots rather than training-data hallucination.
+- **Resilient Multi-Tier Selectors**: Implements 4-tier fallback selector chains (Data attributes → Semantic classes → XPath anchors) to prevent selector breakage.
+- **Automated Data Normalization**: Sanitizes currency strings to floats, cleans whitespace and HTML entities, and resolves all relative URLs to absolute HTTPS links.
 - **Sandboxed Verification**: Executes draft code inside an isolated local runtime (`/tmp/scrapecraft_<session>/`) with strict 45-second timeout constraints.
 - **Deterministic Self-Correction**: Enforces a strict linear correction protocol (maximum 3 iterations) with fail-fast escalation when encountering structural blockers.
 - **Zero Simulation**: Permanently bans mock datasets, placeholder tokens, and decorative comments from final output.
@@ -40,17 +43,21 @@ AI coding agents frequently generate fragile, non-functional web scraping script
 | Layer | Component | Description |
 |---|---|---|
 | `SKILL.md` | Master System Prompt | Core agent instructions, persona enforcement, forbidden token filters, tool permissions, and reference routing |
-| `references/` | Task Playbooks | 7 drill-down engineering specifications loaded on demand to conserve context window |
+| `references/` | 11 Task Playbooks | Drill-down engineering specifications loaded on demand to conserve agent context window |
 | `scripts/` | Execution Tooling | Native bash sandbox runner with process isolation and output quality verification scripts |
 | `install.sh` | Universal Installer | One-command installation script supporting all standard agent skill directories |
 | `assets/` | Visual Assets | Repository branding and visual documentation artifacts |
 
-### Reference Playbook Details
+### Reference Playbook Inventory
 
 - **`references/workflow.md`**: 8-phase execution lifecycle from request clarification to sandboxed delivery.
-- **`references/browser-inspection.md`**: Protocol for headless browser DOM extraction, selector stability hierarchy, and API interception.
-- **`references/python-scraping.md`**: Production templates for `httpx`, `parsel`, `selectolax`, `playwright`, and `scrapy`.
-- **`references/nodejs-scraping.md`**: Production templates for `playwright`, `puppeteer`, `cheerio`, `axios`, and `got`.
+- **`references/state-extraction.md`**: Direct extraction from Next.js `__NEXT_DATA__`, Nuxt state, and Schema.org JSON-LD blobs.
+- **`references/api-sniffing.md`**: Sniffing and reverse-engineering background REST and GraphQL endpoints.
+- **`references/data-normalization.md`**: Sanitizing price values, ISO dates, relative URL resolution, and Pydantic/Zod schemas.
+- **`references/resilient-selectors.md`**: 4-tier fallback selector architecture for resilient HTML extraction.
+- **`references/browser-inspection.md`**: Protocol for headless browser DOM extraction and selector hierarchy verification.
+- **`references/python-scraping.md`**: Production CLI templates for `httpx`, `parsel`, `selectolax`, `playwright`, and `pydantic`.
+- **`references/nodejs-scraping.md`**: Production CLI templates for `playwright`, `puppeteer`, `cheerio`, `axios`, and `got`.
 - **`references/anti-detection.md`**: Evasion patterns for Cloudflare challenges, TLS JA3/JA4 fingerprinting via `curl_cffi`, and browser stealth flags.
 - **`references/validation.md`**: 6-step automated validation pipeline checking exit codes, JSON validity, data density, and token hygiene.
 - **`references/error-correction.md`**: Linear self-correction protocol with bounded iteration budgets and diagnostic escalation schemas.
@@ -70,9 +77,13 @@ scrapecraft/
 │   └── banner.jpg                    # Repository hero banner
 ├── references/                       # Subsystem playbooks (loaded on demand)
 │   ├── workflow.md                   # 8-phase linear execution lifecycle
+│   ├── state-extraction.md           # SSR state (__NEXT_DATA__, JSON-LD, Nuxt)
+│   ├── api-sniffing.md               # Reverse-engineering background REST/GraphQL APIs
+│   ├── data-normalization.md         # Price parsing, URL resolving, schema validation
+│   ├── resilient-selectors.md        # 4-tier fallback selector architecture
 │   ├── browser-inspection.md         # Live DOM analysis & selector hierarchy
-│   ├── python-scraping.md            # Python architectures (httpx, parsel, playwright)
-│   ├── nodejs-scraping.md            # Node.js architectures (playwright, cheerio, axios)
+│   ├── python-scraping.md            # Python architectures (CLI args, streaming NDJSON)
+│   ├── nodejs-scraping.md            # Node.js architectures (CLI args, streaming NDJSON)
 │   ├── anti-detection.md             # Evasion strategies (TLS impersonation, stealth)
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
 │   └── error-correction.md           # Linear self-correction rules (max 3 iterations)
@@ -102,13 +113,13 @@ ScrapeCraft works across all standard AI coding agents. `SKILL.md` carries stand
 #### Option A: Via `npx skills` (Cross-Agent Registry)
 
 ```bash
-npx skills add <owner>/scrapecraft
+npx skills add yanndevgbut/scrapecraft
 ```
 
 #### Option B: Via Bundled Universal Installer
 
 ```bash
-git clone https://github.com/<owner>/scrapecraft.git
+git clone https://github.com/yanndevgbut/scrapecraft.git
 cd scrapecraft
 
 # Install globally (available across all projects):
@@ -131,10 +142,10 @@ Claude Code auto-discovers skills placed in user or project skill directories:
 
 ```bash
 # Global
-git clone https://github.com/<owner>/scrapecraft.git ~/.claude/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git ~/.claude/skills/scrapecraft
 
 # Per-project
-git clone https://github.com/<owner>/scrapecraft.git .claude/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git .claude/skills/scrapecraft
 ```
 
 Verify the skill inside a Claude Code session by typing `/skills`.
@@ -145,10 +156,10 @@ OpenCode scans configured skill paths and native directories automatically:
 
 ```bash
 # Global
-git clone https://github.com/<owner>/scrapecraft.git ~/.config/opencode/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git ~/.config/opencode/skills/scrapecraft
 
 # Per-project
-git clone https://github.com/<owner>/scrapecraft.git .opencode/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git .opencode/skills/scrapecraft
 ```
 
 OpenCode loads ScrapeCraft on demand via the native `skill({ name: "scrapecraft" })` call.
@@ -158,7 +169,7 @@ OpenCode loads ScrapeCraft on demand via the native `skill({ name: "scrapecraft"
 Clone into your workspace and reference via `AGENTS.md`:
 
 ```bash
-git clone https://github.com/<owner>/scrapecraft.git .agents/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git .agents/skills/scrapecraft
 ```
 
 Add the following block to your `AGENTS.md` (or `~/.codex/AGENTS.md`):
@@ -176,7 +187,7 @@ Always inspect the target DOM before writing selectors and test code in a sandbo
 Install to `.agents/skills/scrapecraft` and add the pointer snippet to your `GEMINI.md` or `AGENTS.md`:
 
 ```bash
-git clone https://github.com/<owner>/scrapecraft.git .agents/skills/scrapecraft
+git clone https://github.com/yanndevgbut/scrapecraft.git .agents/skills/scrapecraft
 ```
 
 ```markdown
@@ -200,41 +211,41 @@ scripts in the sandbox before returning code to the user.
 [ User Request ]
        │
        ▼
-┌──────────────────────┐
-│  1. Receive & Parse  │ ── Extract URL, target fields, output schema, and volume
-└──────────────────────┘
+┌──────────────────────────────────────┐
+│  1. Receive & Clarify Schema         │ ── Extract URL, target fields, output format
+└──────────────────────────────────────┘
        │
        ▼
-┌──────────────────────┐
-│  2. Inspect Target   │ ── Live DOM snapshot via headless browser / HTTP probe
-└──────────────────────┘
+┌──────────────────────────────────────┐
+│  2. Target Inspection & Sniffing     │ ── 1. Check SSR State (__NEXT_DATA__, JSON-LD)
+└──────────────────────────────────────┘    2. Sniff background REST/GraphQL endpoints
+       │                                    3. Analyze DOM & multi-tier fallback selectors
+       ▼
+┌──────────────────────────────────────┐
+│  3. Recommend Optimal Strategy       │ ── 1-sentence technical justification
+└──────────────────────────────────────┘
        │
        ▼
-┌──────────────────────┐
-│  3. Recommend Stack  │ ── 1-sentence technical justification (Python vs Node.js)
-└──────────────────────┘
+┌──────────────────────────────────────┐
+│  4. Write Production CLI Code        │ ── Normalize data (prices, URLs), resilient selectors
+└──────────────────────────────────────┘
        │
        ▼
-┌──────────────────────┐
-│  4. Write Code       │ ── Production-ready script using exact DOM selectors
-└──────────────────────┘
+┌──────────────────────────────────────┐
+│  5. Sandboxed Test Run               │ ── Execute in /tmp/scrapecraft_<id>/ (timeout: 45s)
+└──────────────────────────────────────┘
        │
        ▼
-┌──────────────────────┐
-│  5. Sandbox Run      │ ── Execute in /tmp/scrapecraft_<id>/ (timeout: 45s)
-└──────────────────────┘
-       │
-       ▼
-┌──────────────────────┐
-│  6. Validate Output  │ ── Check exit code 0, non-empty data, JSON validity
-└──────────────────────┘
+┌──────────────────────────────────────┐
+│  6. Validate Output & Quality        │ ── Check exit code 0, non-empty data, JSON validity
+└──────────────────────────────────────┘
        │
        ├─► [ Failed ] ── Linear correction (max 3 attempts) ──┐
        │                                                      │
        ▼                                                      ▼
-┌──────────────────────┐                             ┌──────────────────┐
-│  7. Deliver Code     │                             │  Escalate Issue  │
-└──────────────────────┘                             └──────────────────┘
+┌──────────────────────────────────────┐             ┌──────────────────┐
+│  7. Deliver Tested CLI Scraper       │             │  Escalate Issue  │
+└──────────────────────────────────────┘             └──────────────────┘
 ```
 
 ---
@@ -249,6 +260,7 @@ scripts in the sandbox before returning code to the user.
 | `selectolax` | C-Engine Parser | Ultra-high-speed parsing for large HTML documents |
 | `playwright` | Headless Browser | Single-Page Applications (SPAs), hydration-dependent DOMs, dynamic scrolling |
 | `curl_cffi` | TLS Impersonation | Bypassing JA3/JA4 TLS fingerprinting and Cloudflare JS challenges |
+| `pydantic` | Schema Enforcement | Strict field typing, currency sanitization, and data normalization |
 | `scrapy` | Enterprise Framework | Large-scale multi-tier crawling with middleware pipelines |
 
 ### Node.js Scraping Ecosystem
@@ -279,7 +291,7 @@ ScrapeCraft strictly prohibits the following patterns in all generated scripts a
 
 | Violation Category | Forbidden Patterns | Enforced Standard |
 |---|---|---|
-| **Mock Data** | `mock_data`, `sample_data`, `fake_`, `dummy_`, `test_data` | All data must come from real DOM extraction |
+| **Mock Data** | `mock_data`, `sample_data`, `fake_`, `dummy_`, `test_data` | All data must come from real DOM/API extraction |
 | **Placeholders** | `TODO`, `FIXME`, `HACK`, `your_api_key`, `<INSERT_HERE>` | Code must be 100% complete and runnable |
 | **Emoji & Slop** | Any unicode emoji character in code or comments | Clean, professional, production-grade syntax |
 | **Decorative Banners** | Comment dividers (`####`, `====`, `----`), ASCII art | Strictly functional comments only |
@@ -293,7 +305,8 @@ Every script generated by ScrapeCraft must pass the automated validator (`script
 2. **Token Audit**: Zero matches against the `FORBIDDEN_TOKENS` regex suite.
 3. **Execution Exit Code**: Script exits cleanly with return code `0`.
 4. **Data Density Ratio**: Less than 50% empty/null fields across extracted records.
-5. **Output Integrity**: Valid JSON array/object structure written to standard output.
+5. **URL Absolute Verification**: 100% of extracted links must be resolved to absolute URLs.
+6. **Entity Hygiene**: Zero unescaped HTML entities in output values.
 
 ---
 
@@ -359,6 +372,8 @@ Users are responsible for ensuring that their scraping activities comply with:
 
 **If ScrapeCraft helped your AI agent write clean, working scrapers, consider leaving a star.**
 
-[![Star this repo](https://img.shields.io/github/stars/anomalyco/scrapecraft?style=for-the-badge&logo=github&color=2b3af6&label=Star%20ScrapeCraft)](https://github.com/anomalyco/scrapecraft)
+[![Star this repo](https://img.shields.io/github/stars/yanndevgbut/scrapecraft?style=for-the-badge&logo=github&color=2b3af6&label=Star%20ScrapeCraft)](https://github.com/yanndevgbut/scrapecraft)
+
+Maintained by [@yanndevgbut](https://github.com/yanndevgbut)
 
 </div>

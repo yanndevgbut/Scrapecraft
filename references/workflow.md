@@ -1,106 +1,77 @@
 # Workflow: ScrapeCraft Execution Flow
 
-This document defines the step-by-step execution flow for every scraping task.
+This document defines the 8-phase step-by-step execution flow for every scraping task.
 
 ## Phase 1: Receive & Clarify
 
-1. Parse the user's request to extract:
+1. Parse the user's request:
    - **Target URL** (required)
-   - **Data to extract** (required: what fields/elements the user wants)
-   - **Output format** (default: JSON to stdout)
+   - **Fields to extract** (e.g. title, price, SKU, images, date)
+   - **Output format** (default: JSON; optional: JSONL, CSV)
    - **Language preference** (optional: Python or Node.js)
    - **Volume** (single page vs. multi-page crawl)
 
-2. If any required parameter is missing, ask the user ONE clarifying question. Do not ask multiple questions or present long option lists.
+2. If any required parameter is missing, ask ONE brief clarifying question.
 
-## Phase 2: Inspect Target
+## Phase 2: Inspect Target & Sniff Architecture
 
-1. Fetch the target URL using the most appropriate method:
-   - **Static pages**: Use `WebFetch` or `curl -s` to retrieve raw HTML.
-   - **Dynamic pages (JS-rendered)**: Use headless browser via `playwright` or a companion browser skill.
-   - See `references/browser-inspection.md` for detailed inspection procedures.
+1. Fetch target HTML and sniff network responses simultaneously:
+   - **Step 2.1: Check Embedded State:** Inspect for `script#__NEXT_DATA__`, `__NUXT_DATA__`, or `script[type="application/ld+json"]` (see `references/state-extraction.md`).
+   - **Step 2.2: Sniff Background APIs:** If page is dynamic SPA, check network panel for JSON REST / GraphQL endpoints (see `references/api-sniffing.md`).
+   - **Step 2.3: Analyze HTML DOM:** If no state or API is exposed, inspect DOM structure, container elements, and multi-tier selectors (see `references/browser-inspection.md` and `references/resilient-selectors.md`).
+   - **Step 2.4: Anti-Bot Audit:** Detect Cloudflare Turnstile, perimeter WAFs, or rate limiters (see `references/anti-detection.md`).
 
-2. From the fetched content, extract:
-   - Page title and meta information.
-   - DOM structure around the target data (container elements, repeating patterns).
-   - Exact CSS selectors or XPath expressions for each data field.
-   - Whether the page requires JavaScript rendering.
-   - Whether anti-bot measures are present (Cloudflare challenge page, CAPTCHA tokens, WAF signatures).
+## Phase 3: Recommend Optimal Strategy
 
-3. Store the DOM snapshot mentally. Every selector you write MUST trace back to this snapshot.
+State the technical strategy in one definitive sentence:
+- *Example (State)*: "Target is a Next.js application; I will extract structured data directly from `__NEXT_DATA__` using Python and httpx for maximum speed and stability."
+- *Example (API)*: "Target loads items via an internal JSON REST endpoint; I will query the API directly using Python httpx."
+- *Example (DOM)*: "Target is a static catalog; I will use Python with httpx, parsel, and multi-tier fallback selectors."
 
-## Phase 3: Recommend Stack
+## Phase 4: Write Production Code
 
-Based on the inspection results, recommend the technology stack:
-
-- State the recommendation in one definitive sentence.
-- Wait for user acknowledgment before proceeding. If the user disagrees, adapt immediately.
-
-Example: "This is a JS-rendered SPA with infinite scroll; I will use Python with Playwright for reliable dynamic content extraction."
-
-## Phase 4: Write Code
-
-1. Create the sandbox directory:
+1. Initialize isolated sandbox:
    ```bash
    mkdir -p /tmp/scrapecraft_$(date +%s)
    ```
 
-2. Write the scraping script following these rules:
-   - Import only what you use.
-   - Use descriptive variable names (`product_cards`, `price_element`, not `x`, `el`, `d`).
-   - Structure the code as a single executable script with a `main()` function.
-   - Include a proper shebang line (`#!/usr/bin/env python3` or `#!/usr/bin/env node`).
-   - Output results as structured JSON to stdout by default.
-   - Handle HTTP errors explicitly (check status codes, report failures clearly).
-   - Include a `User-Agent` header that mimics a real browser.
-   - Add request timeouts (30 seconds for HTTP, 45 seconds for browser operations).
-
-3. See language-specific playbooks:
-   - Python: `references/python-scraping.md`
-   - Node.js: `references/nodejs-scraping.md`
+2. Generate code enforcing:
+   - Standard CLI arguments (`--url`, `--format`, `--output`, `--delay`, `--max-pages`).
+   - Resilient multi-tier selector arrays.
+   - Built-in data normalizers (`clean_text`, `parse_price`, `resolve_url`).
+   - Pure stdout streams (logging routed strictly to stderr).
+   - Zero forbidden tokens (no mock arrays, no TODOs, no emojis).
 
 ## Phase 5: Execute in Sandbox
 
-1. Install dependencies if needed:
-   - Python: `pip install <package> --quiet`
-   - Node.js: `npm install <package> --save --silent`
+Run with process isolation and timeout:
+```bash
+timeout 45 python3 /tmp/scrapecraft_<session>/scraper.py > /tmp/scrapecraft_<session>/output.json 2> /tmp/scrapecraft_<session>/stderr.log
+```
 
-2. Run the script with timeout enforcement:
+## Phase 6: Validate Output
+
+Run `scripts/validate-output.sh`:
+- Exit code equals `0`.
+- Output is valid JSON/JSONL/CSV.
+- Record count > 0.
+- Missing field ratio < 50%.
+- Zero relative URLs in extracted link fields.
+
+## Phase 7: Linear Error Correction (If Needed)
+
+If validation fails, execute `references/error-correction.md`:
+- Maximum 3 iterations.
+- Isolate root cause from stderr.
+- Never wrap failing code in bare `except: pass`.
+
+## Phase 8: Deliver to User
+
+1. Output final code in clean markdown code block.
+2. Provide dependency install and CLI run commands:
    ```bash
-   timeout 45 python3 /tmp/scrapecraft_<session>/scraper.py
-   ```
-
-3. Capture both stdout and stderr.
-
-## Phase 6: Validate
-
-Run validation checks (see `references/validation.md`):
-
-- Exit code is 0.
-- Stdout contains non-empty output.
-- Output is valid JSON (or valid CSV if specified).
-- Data fields are not null/empty strings.
-- Number of extracted records matches expected range.
-
-## Phase 7: Fix (If Needed)
-
-If validation fails, enter the correction loop (see `references/error-correction.md`):
-
-- **Max 3 iterations.** No exceptions.
-- Each iteration must address a DIFFERENT root cause.
-- If the same error persists after 2 attempts, the issue is structural. Report it to the user.
-
-## Phase 8: Deliver
-
-1. Present the final, tested code to the user in a code block.
-2. Include execution instructions:
-   ```
-   # Install dependencies
    pip install httpx parsel
-
-   # Run
-   python3 scraper.py
+   python3 scraper.py --format json --output results.json
    ```
-3. State what the code does in one sentence.
-4. State the number of records extracted in the test run.
-5. Clean up the sandbox directory.
+3. State execution summary: records extracted, target type, and response latency.
+4. Clean up temporary sandbox directory.

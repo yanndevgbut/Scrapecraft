@@ -9,21 +9,22 @@ if [ ! -f "$SCRIPT_PATH" ]; then
     exit 1
 fi
 
-echo "=== ScrapeCraft Validation ===" >&2
+echo "=== ScrapeCraft Pre-Delivery Validation ===" >&2
 
 FAIL_COUNT=0
-
 SCRIPT_EXT="${SCRIPT_PATH##*.}"
-FORBIDDEN_PATTERN="mock_data|sample_data|fake_|dummy_|test_data|example_data|TODO|FIXME|HACK|XXX|placeholder|your_|<INSERT>"
+FORBIDDEN_PATTERN="mock_data|sample_data|fake_|dummy_|test_data|example_data|TODO|FIXME|HACK|XXX|placeholder|your_|<INSERT"
 
+# Check 1: Forbidden Tokens
 if grep -qEi "$FORBIDDEN_PATTERN" "$SCRIPT_PATH" 2>/dev/null; then
-    echo "FAIL: Code contains forbidden patterns:" >&2
+    echo "FAIL: Code contains forbidden placeholder/mock tokens:" >&2
     grep -nEi "$FORBIDDEN_PATTERN" "$SCRIPT_PATH" >&2
     FAIL_COUNT=$((FAIL_COUNT + 1))
 else
-    echo "OK: No forbidden patterns" >&2
+    echo "OK: Zero forbidden tokens found" >&2
 fi
 
+# Check 2: Emoji Hygiene
 if python3 -c "
 import re, sys
 with open('$SCRIPT_PATH') as f:
@@ -32,12 +33,13 @@ emoji_pattern = re.compile('[\U0001f600-\U0001f64f\U0001f300-\U0001f5ff\U0001f68
 if emoji_pattern.search(content):
     sys.exit(1)
 " 2>/dev/null; then
-    echo "OK: No emoji in code" >&2
+    echo "OK: Zero emoji in code or comments" >&2
 else
     echo "FAIL: Code contains emoji characters" >&2
     FAIL_COUNT=$((FAIL_COUNT + 1))
 fi
 
+# Check 3: Language Syntax
 if [ "$SCRIPT_EXT" = "py" ]; then
     if python3 -c "
 import ast, sys
@@ -48,77 +50,108 @@ except SyntaxError as e:
     print(f'Syntax error: {e}', file=sys.stderr)
     sys.exit(1)
 " 2>/dev/null; then
-        echo "OK: Python syntax valid" >&2
+        echo "OK: Python AST syntax valid" >&2
     else
         echo "FAIL: Python syntax error" >&2
         FAIL_COUNT=$((FAIL_COUNT + 1))
     fi
 elif [ "$SCRIPT_EXT" = "js" ]; then
     if node --check "$SCRIPT_PATH" 2>/dev/null; then
-        echo "OK: JavaScript syntax valid" >&2
+        echo "OK: Node.js JavaScript syntax valid" >&2
     else
-        echo "FAIL: JavaScript syntax error" >&2
+        echo "FAIL: Node.js syntax error" >&2
         FAIL_COUNT=$((FAIL_COUNT + 1))
     fi
 fi
 
+# Check 4: Data Quality & Normalization
 if [ -n "$OUTPUT_FILE" ] && [ -f "$OUTPUT_FILE" ]; then
     OUTPUT_SIZE=$(wc -c < "$OUTPUT_FILE")
     if [ "$OUTPUT_SIZE" -lt 3 ]; then
-        echo "FAIL: Output is empty or trivial ($OUTPUT_SIZE bytes)" >&2
+        echo "FAIL: Output payload is empty or trivial ($OUTPUT_SIZE bytes)" >&2
         FAIL_COUNT=$((FAIL_COUNT + 1))
     else
-        echo "OK: Output is $OUTPUT_SIZE bytes" >&2
+        echo "OK: Output payload size: $OUTPUT_SIZE bytes" >&2
     fi
 
     if python3 -c "
 import json, sys
+
 try:
     with open('$OUTPUT_FILE') as f:
-        data = json.load(f)
-    if isinstance(data, list):
-        print(f'OK: {len(data)} records in JSON array', file=sys.stderr)
-        if len(data) == 0:
-            print('WARNING: Zero records extracted', file=sys.stderr)
-            sys.exit(1)
-        empty_fields = 0
-        total_fields = 0
-        for record in data:
-            if isinstance(record, dict):
-                for key, value in record.items():
-                    total_fields += 1
-                    if not value or (isinstance(value, str) and not value.strip()):
-                        empty_fields += 1
-        if total_fields > 0:
-            ratio = empty_fields / total_fields
-            if ratio > 0.5:
-                print(f'WARNING: {ratio:.0%} of fields are empty', file=sys.stderr)
-                sys.exit(1)
-            else:
-                print(f'OK: {ratio:.0%} empty fields (acceptable)', file=sys.stderr)
-    elif isinstance(data, dict):
-        print(f'OK: JSON object with {len(data)} keys', file=sys.stderr)
+        raw_text = f.read().strip()
+    
+    # Check JSON or JSONL
+    if raw_text.startswith('['):
+        data = json.loads(raw_text)
+    elif raw_text.startswith('{'):
+        try:
+            data = json.loads(raw_text)
+            if isinstance(data, dict):
+                data = [data]
+        except json.JSONDecodeError:
+            data = [json.loads(line) for line in raw_text.splitlines() if line.strip()]
     else:
-        print('WARNING: Output is not a JSON array or object', file=sys.stderr)
-except json.JSONDecodeError as e:
-    print(f'FAIL: Invalid JSON: {e}', file=sys.stderr)
+        data = [json.loads(line) for line in raw_text.splitlines() if line.strip()]
+
+    if not isinstance(data, list) or len(data) == 0:
+        print('FAIL: Zero records extracted from target', file=sys.stderr)
+        sys.exit(1)
+
+    print(f'OK: {len(data)} structured record(s) parsed', file=sys.stderr)
+
+    empty_fields = 0
+    total_fields = 0
+    relative_urls = 0
+    raw_entities = 0
+
+    for r in data:
+        if isinstance(r, dict):
+            for k, v in r.items():
+                total_fields += 1
+                if v is None or (isinstance(v, str) and not v.strip()):
+                    empty_fields += 1
+                if isinstance(v, str):
+                    if ('url' in k.lower() or 'link' in k.lower()) and v.startswith(('/', './', '../')):
+                        relative_urls += 1
+                    if any(e in v for e in ['&amp;', '&lt;', '&gt;', '&quot;', '&#39;']):
+                        raw_entities += 1
+
+    if relative_urls > 0:
+        print(f'FAIL: Found {relative_urls} unresolved relative URL(s)', file=sys.stderr)
+        sys.exit(1)
+
+    if raw_entities > 0:
+        print(f'FAIL: Found {raw_entities} unescaped HTML entity string(s)', file=sys.stderr)
+        sys.exit(1)
+
+    if total_fields > 0:
+        ratio = empty_fields / total_fields
+        if ratio > 0.5:
+            print(f'WARNING: High empty field ratio ({ratio:.0%})', file=sys.stderr)
+            sys.exit(1)
+        else:
+            print(f'OK: Data density optimal ({ratio:.0%} empty field ratio)', file=sys.stderr)
+
+except Exception as e:
+    print(f'FAIL: Data verification exception: {e}', file=sys.stderr)
     sys.exit(1)
 " 2>/dev/null; then
-        echo "OK: JSON validation passed" >&2
+        echo "OK: Normalization & data quality audit passed" >&2
     else
-        echo "FAIL: JSON validation failed" >&2
+        echo "FAIL: Data quality audit failed" >&2
         FAIL_COUNT=$((FAIL_COUNT + 1))
     fi
 else
-    echo "SKIP: No output file to validate" >&2
+    echo "SKIP: No output file passed for runtime data audit" >&2
 fi
 
-echo "===========================" >&2
+echo "===========================================" >&2
 
 if [ "$FAIL_COUNT" -gt 0 ]; then
-    echo "RESULT: $FAIL_COUNT check(s) failed" >&2
+    echo "VALIDATION RESULT: $FAIL_COUNT check(s) failed." >&2
     exit 1
 else
-    echo "RESULT: All checks passed" >&2
+    echo "VALIDATION RESULT: ALL CHECKS PASSED. Ready for delivery." >&2
     exit 0
 fi
