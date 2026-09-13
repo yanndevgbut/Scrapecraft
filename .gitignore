@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+node_modules/
+package-lock.json
+.env
+.env.*
+*.log
+/tmp/scrapecraft_*
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
