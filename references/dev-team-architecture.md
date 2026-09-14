@@ -11,27 +11,34 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
        ▼                                                       ▼
 ┌──────────────────────────────┐              ┌──────────────────────────────┐
 │ 1. Principal Scrape Architect│              │ 2. Recon & Sniffer Engineer  │
-│ - Extraction strategy design │              │ - SSR state (__NEXT_DATA__)  │
-│ - Language & framework lead  │              │ - Internal REST/GraphQL map  │
-│ - Pipeline orchestration     │              │ - Live DOM selector hierarchy│
+│ - Strategy & framework design│              │ - SSR state (__NEXT_DATA__)  │
+│ - Language selection gate    │              │ - Internal REST/GraphQL map  │
+│ - Technical recommendation   │              │ - Live DOM selector hierarchy│
 └──────────────────────────────┘              └──────────────────────────────┘
-       │                                                       │
-       ├───────────────────────────┬───────────────────────────┤
-       ▼                           ▼                           ▼
-┌──────────────────────────┐ ┌──────────────────────────┐ ┌──────────────────────────┐
-│ 3. Stealth & Evasion Eng │ │ 4. Core Scraper Dev      │ │ 5. Data & ETL Engineer   │
-│ - TLS JA3/JA4 impersonate│ │ - Async non-blocking code│ │ - Schema normalization   │
-│ - Browser fingerprinting │ │ - Resilient fallbacks    │ │ - Price, date, URL sanit │
-│ - Rate limiting & backoff│ │ - Pagination & streams   │ │ - Multi-format exporters │
-└──────────────────────────┘ └──────────────────────────┘ └──────────────────────────┘
-                                   │
-                                   ▼
-                      ┌──────────────────────────────┐
-                      │ 6. QA & Sandbox Gatekeeper   │
-                      │ - 45s timeout execution      │
-                      │ - Zero-simulation enforcement│
-                      │ - Validates data integrity   │
-                      └──────────────────────────────┘
+                               │                               │
+                               ├───────────────────────────────┘
+                               ▼
+        ┌──────────────────────────────────────────────┐
+        │  MANDATORY INTERACTIVE LANGUAGE GATE         │
+        │  [STOP] No code written before user confirms [STOP]   │
+        └──────────────────────────────────────────────┘
+                               │ (User Confirms Stack)
+       ┌───────────────────────┼───────────────────────┐
+       ▼                       ▼                       ▼
+┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐
+│ 3. Stealth Engineer  │ │ 4. Core Scraper Dev  │ │ 5. Data & ETL Eng    │
+│ - TLS JA3/JA4 profile│ │ - Async scraper code │ │ - Schema normalizer  │
+│ - Anti-bot evasion   │ │ - Resilient fallback │ │ - Price, date, URL   │
+│ - Jitter & backoff   │ │ - Pagination & streams││ - Multi-format export│
+└──────────────────────┘ └──────────────────────┘ └──────────────────────┘
+                               │
+                               ▼
+                  ┌──────────────────────────────┐
+                  │ 6. QA & Sandbox Gatekeeper   │
+                  │ - 45s timeout execution      │
+                  │ - Zero-simulation enforcement│
+                  │ - Validates data density     │
+                  └──────────────────────────────┘
 ```
 
 ---
@@ -39,12 +46,12 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
 ## The 6 Specialized Engineering Roles
 
 ### Role 1: Principal Scraping Architect
-- **Mission**: High-level system design, strategic decision-making, and architecture selection.
+- **Mission**: High-level system design, strategic decision-making, and language gate enforcement.
 - **Responsibilities**:
   - Evaluates user requirements and chooses between **State Extraction**, **Direct API Sniffing**, **Lightweight HTTP Parsing**, or **Headless Browser Automation**.
-  - Determines the target stack (Python `httpx`/`parsel`/`playwright` vs. Node.js `cheerio`/`axios`/`playwright`).
-  - Formulates the definitive 1-sentence recommendation before code generation.
-  - Enforces project boundaries (no extraneous dependencies, single-file executable output).
+  - Formulates the definitive technical recommendation with clear rationale.
+  - **Enforces the Language Selection Gate**: Ensures the team never outputs code before the user confirms their preferred programming language (Python vs. Node.js).
+  - Enforces project boundaries (single-file executable, zero bloat).
 
 ### Role 2: Recon & Network Sniffer Engineer
 - **Mission**: Target payload inspection, DOM deconstruction, and network reverse-engineering.
@@ -52,12 +59,12 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
   - Probes live HTML for SSR hydration payloads (`<script id="__NEXT_DATA__">`, `window.__NUXT__`, Schema.org JSON-LD).
   - Intercepts background XHR/Fetch network traffic in browser sessions to discover hidden REST/GraphQL endpoints.
   - Constructs the DOM selector hierarchy and identifies repeating container nodes.
-  - Hands over exact JSON keys or CSS/XPath selectors to the Core Developer.
+  - Generates the **Reconnaissance Dossier** before code generation begins.
 
 ### Role 3: Anti-Detection & Stealth Engineer
 - **Mission**: Ensuring scrapers bypass perimeter WAFs, anti-bot protections, and fingerprint checks.
 - **Responsibilities**:
-  - Identifies anti-bot signatures (Cloudflare Turnstile, DataDome, Akamai, PerimeterX).
+  - Runs the **10-Point Pre-Flight Security Audit** (see `references/anti-blocking-checklist.md`).
   - Configures TLS JA3/JA4 browser impersonation using `curl_cffi` (Chrome 131 profile).
   - Injects browser evasion init scripts (`navigator.webdriver` masking, WebGL/Canvas spoofing).
   - Calculates randomized request jitter (1.5s - 3.5s) and backoff retry logic for HTTP 429/403 responses.
@@ -66,7 +73,7 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
 - **Mission**: Writing robust, high-throughput, maintainable scraping code.
 - **Responsibilities**:
   - Implements async or connection-pooled HTTP scrapers and Playwright automation scripts.
-  - Applies 4-tier resilient selector fallbacks (`data-testid` -> semantic BEM -> text anchor -> XPath).
+  - Applies **Self-Healing Selector Logic** and 4-tier resilient fallbacks.
   - Builds cursor, offset, and infinite-scroll pagination engines.
   - Directs structured data streams to `stdout` and operation telemetry to `stderr`.
 
@@ -77,7 +84,7 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
   - Resolves relative URLs into fully-qualified absolute HTTPS links.
   - Normalizes human-readable date formats to standard ISO-8601 strings (`YYYY-MM-DD`).
   - Strips unescaped HTML entities and excessive whitespace.
-  - Implements output serializes for JSON array, NDJSON/JSON Lines, and CSV with UTF-8 BOM.
+  - Implements output serializers for JSON array, NDJSON/JSON Lines, and CSV with UTF-8 BOM.
 
 ### Role 6: QA & Sandbox Gatekeeper
 - **Mission**: Pre-delivery verification, testing, and zero-simulation enforcement.
@@ -96,16 +103,19 @@ ScrapeCraft operates through a coordinated **Virtual Engineering Team** composed
 [ User Prompt ]
        │
        ▼
-1. Principal Architect ───► Evaluates domain, selects tech stack & extraction mode
+1. Principal Architect ───► Evaluates domain & drafts extraction strategy
        │
        ▼
-2. Recon & Sniffer ───────► Sniffs SSR state, background APIs, and live DOM selectors
+2. Recon & Sniffer ───────► Sniffs SSR state, background APIs, and DOM; produces Recon Dossier
        │
+       ▼
+[ MANDATORY LANGUAGE GATE ] ► AI asks user: "Python or Node.js?" (Provides recommendation)
+       │ (User Responds)
        ▼
 3. Stealth Engineer ──────► Formulates TLS profile, headers, evasion scripts & delay intervals
        │
        ▼
-4. Core Developer ────────► Writes complete async CLI scraper with resilient fallbacks
+4. Core Developer ────────► Writes complete async CLI scraper with self-healing fallbacks
        │
        ▼
 5. ETL Engineer ──────────► Injects data sanitizers, URL resolvers & schema validators

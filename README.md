@@ -2,11 +2,11 @@
 
 <img src="assets/banner.jpg" alt="ScrapeCraft" width="640">
 
-# ScrapeCraft v2.0 Enterprise
+# ScrapeCraft v2.5 Enterprise
 
-**A high-precision, production-grade web scraping AI agent skill.**
+**A high-precision, production-grade web scraping AI agent skill with interactive decision gates.**
 
-Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Powered by an integrated **6-Role Virtual Engineering Team** with live DOM inspection, SSR state extraction, internal API reverse-engineering, and sandboxed self-correction.
+Eliminates selector hallucinations, simulated mock data, nested try-catch masking, and circular reasoning loops in AI-generated scrapers. Powered by an integrated **6-Role Virtual Engineering Team** with live DOM inspection, SSR state extraction, internal API reverse-engineering, sandboxed self-correction, and mandatory interactive language selection.
 
 [![Stars](https://img.shields.io/github/stars/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/stargazers)
 [![Forks](https://img.shields.io/github/forks/yanndevgbut/scrapecraft?style=flat-square&color=2b3af6)](https://github.com/yanndevgbut/scrapecraft/network/members)
@@ -15,7 +15,7 @@ Eliminates selector hallucinations, simulated mock data, nested try-catch maskin
 [![Repo Size](https://img.shields.io/github/repo-size/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft)
 [![License](https://img.shields.io/github/license/yanndevgbut/scrapecraft?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Playbooks](#35-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
+[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Interactive Protocol](#interactive-language-selection-gate) · [40 Playbooks](#40-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
 
 </div>
 
@@ -27,9 +27,10 @@ AI coding agents frequently generate fragile, non-functional web scraping script
 
 **ScrapeCraft resolves this completely.** It is an enterprise skill and knowledge pack engineered for AI coding agents (OpenCode, Claude Code, Codex, Antigravity, Cursor) that enforces the collective discipline of a **6-Role Virtual Engineering Team**:
 
+- **No Premature Code Generation**: Strictly enforces a **Mandatory Language Selection Gate** where the agent conducts reconnaissance and asks the user for their preferred stack before writing code.
 - **Direct State Extraction**: Discovers and parses SSR hydration state (`__NEXT_DATA__`, `__NUXT_DATA__`, JSON-LD) directly for 100x faster, redesign-immune extraction.
 - **Internal API Reverse-Engineering**: Sniffs XHR/Fetch network traffic to extract clean JSON REST/GraphQL endpoints before resorting to heavy browser rendering.
-- **Resilient Multi-Tier Selectors**: Implements 4-tier fallback selector chains (Data attributes → Semantic classes → XPath anchors) to prevent selector breakage.
+- **Self-Healing Selectors**: Implements 4-tier fallback selector chains with heuristic parent-container auto-discovery to prevent selector breakage.
 - **Automated Data Normalization**: Sanitizes currency strings to floats, cleans whitespace and HTML entities, and resolves all relative URLs to absolute HTTPS links.
 - **Domain-Specific Scrapers**: Tailored extraction engines for E-Commerce, Social Media, Real Estate, Financial Markets, Job Portals, Travel, News, and Business Leads.
 - **Document & Stream Pipelines**: Extracts tabular data from PDFs, parses massive XML Sitemaps/RSS feeds, downloads high-res media streams, and captures live WebSockets.
@@ -50,51 +51,109 @@ AI coding agents frequently generate fragile, non-functional web scraping script
        ▼                                                       ▼
 ┌──────────────────────────────┐              ┌──────────────────────────────┐
 │ 1. Principal Scrape Architect│              │ 2. Recon & Sniffer Engineer  │
-│ - Extraction strategy design │              │ - SSR state (__NEXT_DATA__)  │
-│ - Language & framework lead  │              │ - Internal REST/GraphQL map  │
-│ - Pipeline orchestration     │              │ - Live DOM selector hierarchy│
+│ - Strategy & framework lead  │              │ - SSR state (__NEXT_DATA__)  │
+│ - Language selection gate    │              │ - Internal REST/GraphQL map  │
+│ - Technical recommendation   │              │ - Live DOM selector hierarchy│
 └──────────────────────────────┘              └──────────────────────────────┘
-       │                                                       │
-       ├───────────────────────────┬───────────────────────────┤
-       ▼                           ▼                           ▼
-┌──────────────────────────┐ ┌──────────────────────────┐ ┌──────────────────────────┐
-│ 3. Stealth & Evasion Eng │ │ 4. Core Scraper Dev      │ │ 5. Data & ETL Engineer   │
-│ - TLS JA3/JA4 impersonate│ │ - Async non-blocking code│ │ - Schema normalization   │
-│ - Browser fingerprinting │ │ - Resilient fallbacks    │ │ - Price, date, URL sanit │
-│ - Rate limiting & backoff│ │ - Pagination & streams   │ │ - Multi-format exporters │
-└──────────────────────────┘ └──────────────────────────┘ └──────────────────────────┘
-                                   │
-                                   ▼
-                      ┌──────────────────────────────┐
-                      │ 6. QA & Sandbox Gatekeeper   │
-                      │ - 45s timeout execution      │
-                      │ - Zero-simulation enforcement│
-                      │ - Validates data integrity   │
-                      └──────────────────────────────┘
+                               │                               │
+                               ├───────────────────────────────┘
+                               ▼
+        ┌──────────────────────────────────────────────┐
+        │  MANDATORY INTERACTIVE LANGUAGE GATE         │
+        │  [STOP] DO NOT WRITE CODE BEFORE USER CONFIRMS [STOP] │
+        └──────────────────────────────────────────────┘
+                               │ (User Confirms Language)
+       ┌───────────────────────┼───────────────────────┐
+       ▼                       ▼                       ▼
+┌──────────────────────┐ ┌──────────────────────┐ ┌──────────────────────┐
+│ 3. Stealth Engineer  │ │ 4. Core Scraper Dev  │ │ 5. Data & ETL Eng    │
+│ - TLS JA3/JA4 profile│ │ - Async scraper code │ │ - Schema normalizer  │
+│ - Anti-bot evasion   │ │ - Resilient fallback │ │ - Price, date, URL   │
+│ - Jitter & backoff   │ │ - Pagination & streams││ - Multi-format export│
+└──────────────────────┘ └──────────────────────┘ └──────────────────────┘
+                               │
+                               ▼
+                  ┌──────────────────────────────┐
+                  │ 6. QA & Sandbox Gatekeeper   │
+                  │ - 45s timeout execution      │
+                  │ - Zero-simulation enforcement│
+                  │ - Validates data density     │
+                  └──────────────────────────────┘
 ```
 
 | Role | Core Responsibility | Quality Standard |
 |---|---|---|
-| **1. Principal Architect** | High-level system design, extraction paradigm selection, tech stack recommendation | Evaluates State vs. API vs. DOM; formulates definitive 1-sentence recommendation |
-| **2. Recon & Sniffer** | Target payload inspection, SSR state discovery, background API interception | Captures `__NEXT_DATA__`, hidden endpoints, and verified DOM selectors |
-| **3. Stealth Engineer** | Anti-bot bypass, TLS fingerprinting, browser evasion, rate limiting | Configures `curl_cffi` JA3/JA4 impersonation, stealth flags, and jitter delays |
-| **4. Core Scraper Dev** | Production-ready script authoring, resilient fallbacks, streaming pagination | Clean async code, 4-tier selector hierarchy, stdout data streams |
+| **1. Principal Architect** | System design, extraction strategy selection, technical recommendation, language gate enforcement | Formulates 1-sentence technical recommendation; halts execution until user confirms stack |
+| **2. Recon & Sniffer** | Target inspection, SSR state discovery, background API interception | Produces Reconnaissance Dossier with verified payload keys and DOM selectors |
+| **3. Stealth Engineer** | Anti-bot bypass, TLS fingerprinting, browser evasion, rate limiting | 10-Point Pre-Flight Audit, `curl_cffi` JA3/JA4 impersonation, jitter delays |
+| **4. Core Scraper Dev** | Production-ready script authoring, self-healing fallbacks, streaming pagination | Clean async code, 4-tier selector hierarchy, pure stdout data streams |
 | **5. Data & ETL Engineer** | Data sanitization, schema typing, price/date normalizers, absolute URL resolution | Pydantic/Zod schemas, floats for prices, ISO-8601 timestamps, HTTPS links |
 | **6. QA Gatekeeper** | Isolated sandbox test runs, timeout enforcement, token audits, pre-delivery sign-off | Exit code 0, non-empty results, zero forbidden tokens, verified JSON schema |
 
 ---
 
-## 35 Specialized Engineering Playbooks
+## Interactive Language Selection Gate
 
-The `references/` directory contains 35 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
+ScrapeCraft **strictly forbids generating code prematurely**. When you submit a scraping request, the agent follows this interactive flow:
+
+```
+[ User Request Target ]
+           │
+           ▼
+┌──────────────────────────────────────┐
+│  Phase 1: Parse & Clarify Schema     │
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│  Phase 2: Target Reconnaissance      │ ── Silent inspection (SSR State, API, DOM, Anti-Bot)
+└──────────────────────────────────────┘
+           │
+           ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Phase 3: Recon Dossier & MANDATORY LANGUAGE SELECTION GATE [HARD STOP] │
+│                                                                         │
+│  1. Agent presents the Reconnaissance Dossier findings.                 │
+│  2. Agent provides 1-sentence technical recommendation.                 │
+│  3. Agent prompts user: "Which language would you like to use?"         │
+│     - Option 1: Python (Recommended)                                    │
+│     - Option 2: Node.js (JavaScript)                                    │
+│                                                                         │
+│  [STOP] HALTS AND WAITS FOR USER CONFIRMATION BEFORE GENERATING ANY CODE [STOP]  │
+└─────────────────────────────────────────────────────────────────────────┘
+           │
+           ▼ (User confirms/selects language)
+┌──────────────────────────────────────┐
+│  Phase 4: Write Production CLI Code  │
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│  Phase 5 & 6: Sandbox Run & Validate │
+└──────────────────────────────────────┘
+           │
+           ▼
+┌──────────────────────────────────────┐
+│  Phase 7: Deliver Final Tested Code  │
+└──────────────────────────────────────┘
+```
+
+---
+
+## 40 Specialized Engineering Playbooks
+
+The `references/` directory contains 40 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
 
 ### 1. Core Architecture & Workflow
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
-| `references/workflow.md` | 8-phase execution lifecycle | End-to-end task orchestration |
+| `references/workflow.md` | 8-phase execution lifecycle | End-to-end task orchestration with Language Gate |
 | `references/dev-team-architecture.md` | Multi-role virtual team protocol | Handover contracts & quality gates |
+| `references/interactive-question-protocol.md` | Interactive decision gates | Question tool schemas & terminal prompts |
+| `references/recon-report.md` | Reconnaissance Dossier template | Architectural classification & evidence logging |
 | `references/browser-inspection.md` | Live DOM & network panel analysis | Headless browser DOM capture |
 | `references/resilient-selectors.md` | 4-tier fallback selector hierarchy | Data attributes, BEM classes, XPath anchors |
+| `references/self-healing-code.md` | Dynamic selector auto-discovery | Heuristic card detection & attribute fallbacks |
 
 ### 2. Domain-Specific Data Scraping
 | Playbook | Focus Area | Key Technologies |
@@ -140,8 +199,10 @@ The `references/` directory contains 35 drill-down engineering specifications lo
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/anti-detection.md` | Cloudflare Turnstile & WAF bypass | Fingerprint spoofing, header ordering |
+| `references/anti-blocking-checklist.md` | 10-Point Pre-Flight Security Audit | TLS, header order, Sec-Ch-Ua, jitter delays |
 | `references/proxy-rotation-gateways.md` | Residential proxy pools & backoff | Sticky/rotating proxy pools, jitter retry |
 | `references/concurrency-rate-limiting.md` | Asyncio semaphores & token bucket | Concurrency controls, exponential backoff |
+| `references/performance-benchmarks.md` | Resource & bandwidth optimization | RAM, CPU, route aborts, NDJSON streaming |
 | `references/data-normalization.md` | Currency parsing, ISO dates, URLs | `clean_text`, `parse_price`, `resolve_url` |
 | `references/storage-database-pipelines.md` | Relational & analytics storage | SQLite, PostgreSQL, DuckDB, Parquet |
 | `references/validation.md` | 6-stage automated quality pipeline | Exit code, token hygiene, schema audit |
@@ -160,11 +221,14 @@ scrapecraft/
 ├── .gitignore                        # Cache, environment, and temp directory exclusions
 ├── assets/
 │   └── banner.jpg                    # Repository hero banner
-├── references/                       # 35 Specialized engineering playbooks
-│   ├── workflow.md                   # 8-phase execution lifecycle
+├── references/                       # 40 Specialized engineering playbooks
+│   ├── workflow.md                   # 8-phase execution lifecycle with Language Gate
 │   ├── dev-team-architecture.md      # 6-role virtual team protocol
+│   ├── interactive-question-protocol.md # Interactive decision gate schemas
+│   ├── recon-report.md               # Reconnaissance Dossier template
 │   ├── browser-inspection.md         # Live DOM & network panel analysis
 │   ├── resilient-selectors.md        # 4-tier fallback selector hierarchy
+│   ├── self-healing-code.md          # Heuristic container & selector auto-discovery
 │   ├── domain-ecommerce.md           # E-commerce product catalogs & variants
 │   ├── domain-social-media.md        # Social feeds & recursive comment trees
 │   ├── domain-jobs-recruitment.md    # Job listings, salary ranges & skills
@@ -190,8 +254,10 @@ scrapecraft/
 │   ├── puppeteer-stealth.md          # Puppeteer Extra Stealth & evasion
 │   ├── httpx-curl-cffi.md            # TLS JA3/JA4 browser impersonation
 │   ├── anti-detection.md             # Cloudflare Turnstile & WAF bypass
+│   ├── anti-blocking-checklist.md    # 10-Point Pre-Flight Security Audit
 │   ├── proxy-rotation-gateways.md    # Residential proxy pools & backoff
 │   ├── concurrency-rate-limiting.md  # Asyncio semaphores & token bucket limiters
+│   ├── performance-benchmarks.md     # Resource & bandwidth optimization
 │   ├── data-normalization.md         # Price parsing, ISO dates, absolute URLs
 │   ├── storage-database-pipelines.md # SQLite, PostgreSQL, DuckDB, Parquet
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
@@ -282,7 +348,7 @@ Add to your `AGENTS.md` (or `~/.codex/AGENTS.md`):
 
 When a task involves web scraping, data extraction, HTML parsing, or building crawlers,
 read `.agents/skills/scrapecraft/SKILL.md` first and follow its execution workflow.
-Always inspect the target DOM before writing selectors and test code in a sandbox before delivery.
+Always inspect the target DOM, present the Recon Dossier, and ask for language choice before generating code.
 ```
 
 #### Antigravity (Google)
@@ -305,51 +371,6 @@ scripts in the sandbox before returning code to the user.
 
 - **Cursor:** Place the pointer snippet in `.cursor/rules/scrapecraft.mdc` or within the root `AGENTS.md`.
 - **Windsurf:** Add the pointer snippet to `.windsurf/rules/scrapecraft.md` or within the root `AGENTS.md`.
-
----
-
-## Execution Workflow
-
-```
-[ User Request ]
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  1. Receive & Clarify Schema         │ ── Principal Architect: Extract target parameters
-└──────────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  2. Target Inspection & Sniffing     │ ── Recon Engineer: 1. Check SSR State (__NEXT_DATA__)
-└──────────────────────────────────────┘                    2. Sniff background REST/GraphQL APIs
-       │                                                    3. Analyze DOM & multi-tier fallbacks
-       ▼
-┌──────────────────────────────────────┐
-│  3. Recommend Optimal Strategy       │ ── Principal Architect: 1-sentence technical justification
-└──────────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  4. Write Production CLI Code        │ ── Core Dev & ETL Engineer: Normalizers, fallbacks, CLI args
-└──────────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  5. Sandboxed Test Run               │ ── QA Gatekeeper: Execute in /tmp/ (timeout: 45s)
-└──────────────────────────────────────┘
-       │
-       ▼
-┌──────────────────────────────────────┐
-│  6. Validate Output & Quality        │ ── QA Gatekeeper: Check exit code 0, density, JSON schema
-└──────────────────────────────────────┘
-       │
-       ├─► [ Failed ] ── Linear correction (max 3 attempts) ──┐
-       │                                                      │
-       ▼                                                      ▼
-┌──────────────────────────────────────┐             ┌──────────────────┐
-│  7. Deliver Tested CLI Scraper       │             │  Escalate Issue  │
-└──────────────────────────────────────┘             └──────────────────┘
-```
 
 ---
 
