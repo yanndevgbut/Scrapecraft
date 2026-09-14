@@ -5,7 +5,6 @@
 
 # ScrapeCraft 
 
-# ScrapeCraft 
 
 
 **A high-precision, production-grade web scraping AI agent skill with interactive decision gates.**
