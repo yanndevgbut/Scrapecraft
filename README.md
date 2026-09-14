@@ -19,7 +19,7 @@ Eliminates selector hallucinations, simulated mock data, nested try-catch maskin
 [![Repo Size](https://img.shields.io/github/repo-size/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft)
 [![License](https://img.shields.io/github/license/yanndevgbut/scrapecraft?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Interactive Protocol](#interactive-language-selection-gate) · [40 Playbooks](#40-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
+[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Interactive Protocol](#interactive-language-selection-gate) · [41 Playbooks](#41-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
 
 </div>
 
@@ -144,9 +144,9 @@ ScrapeCraft **strictly forbids generating code prematurely**. When you submit a 
 
 ---
 
-## 40 Specialized Engineering Playbooks
+## 41 Specialized Engineering Playbooks
 
-The `references/` directory contains 40 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
+The `references/` directory contains 41 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
 
 ### 1. Core Architecture & Workflow
 | Playbook | Focus Area | Key Technologies |
@@ -199,11 +199,12 @@ The `references/` directory contains 40 drill-down engineering specifications lo
 | `references/puppeteer-stealth.md` | Node.js stealth automation | `puppeteer-extra-plugin-stealth`, CDP |
 | `references/httpx-curl-cffi.md` | TLS JA3/JA4 browser impersonation | `curl_cffi` (Chrome 131 profile), HTTP/2 |
 
-### 6. Anti-Detection, ETL & Quality Control
+### 6. Anti-Detection, Proxies & Quality Control
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/anti-detection.md` | Cloudflare Turnstile & WAF bypass | Fingerprint spoofing, header ordering |
 | `references/anti-blocking-checklist.md` | 10-Point Pre-Flight Security Audit | TLS, header order, Sec-Ch-Ua, jitter delays |
+| `references/free-proxy-engine.md` | 60-source proxy aggregator | High-speed async health checker, SOCKS5/HTTP |
 | `references/proxy-rotation-gateways.md` | Residential proxy pools & backoff | Sticky/rotating proxy pools, jitter retry |
 | `references/concurrency-rate-limiting.md` | Asyncio semaphores & token bucket | Concurrency controls, exponential backoff |
 | `references/performance-benchmarks.md` | Resource & bandwidth optimization | RAM, CPU, route aborts, NDJSON streaming |
@@ -225,7 +226,7 @@ scrapecraft/
 ├── .gitignore                        # Cache, environment, and temp directory exclusions
 ├── assets/
 │   └── banner.jpg                    # Repository hero banner
-├── references/                       # 40 Specialized engineering playbooks
+├── references/                       # 41 Specialized engineering playbooks
 │   ├── workflow.md                   # 8-phase execution lifecycle with Language Gate
 │   ├── dev-team-architecture.md      # 6-role virtual team protocol
 │   ├── interactive-question-protocol.md # Interactive decision gate schemas
@@ -259,6 +260,7 @@ scrapecraft/
 │   ├── httpx-curl-cffi.md            # TLS JA3/JA4 browser impersonation
 │   ├── anti-detection.md             # Cloudflare Turnstile & WAF bypass
 │   ├── anti-blocking-checklist.md    # 10-Point Pre-Flight Security Audit
+│   ├── free-proxy-engine.md          # 60-source proxy aggregator & health checker
 │   ├── proxy-rotation-gateways.md    # Residential proxy pools & backoff
 │   ├── concurrency-rate-limiting.md  # Asyncio semaphores & token bucket limiters
 │   ├── performance-benchmarks.md     # Resource & bandwidth optimization
@@ -267,6 +269,7 @@ scrapecraft/
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
 │   └── error-correction.md           # Linear self-correction protocol (max 3 tries)
 └── scripts/
+    ├── proxy-checker.py              # 60-source proxy aggregator & live prober
     ├── sandbox-run.sh                # Isolated script execution runner (45s timeout)
     └── validate-output.sh            # Automated syntax, token, and data density auditor
 ```
