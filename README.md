@@ -2,11 +2,11 @@
 
 <img src="assets/banner.jpg" alt="ScrapeCraft" width="640">
 
-<<<<<<< HEAD
-# ScrapeCraft v2.5 Enterprise
+
+# ScrapeCraft 
 =======
 # ScrapeCraft 
->>>>>>> b4d3ed57ac08c9650a08ba1317fee553b65e15df
+
 
 **A high-precision, production-grade web scraping AI agent skill with interactive decision gates.**
 
