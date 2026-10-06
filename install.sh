@@ -38,10 +38,20 @@ copy_skill() {
   cp -r "$SCRIPT_DIR/SKILL.md" "$dest/"
   cp -r "$SCRIPT_DIR/references" "$dest/"
   cp -r "$SCRIPT_DIR/scripts" "$dest/"
+  if [ -f "$SCRIPT_DIR/requirements.txt" ]; then
+    cp "$SCRIPT_DIR/requirements.txt" "$dest/"
+  fi
+  if [ -f "$SCRIPT_DIR/package.json" ]; then
+    cp "$SCRIPT_DIR/package.json" "$dest/"
+  fi
   if [ -d "$SCRIPT_DIR/assets" ]; then
     cp -r "$SCRIPT_DIR/assets" "$dest/"
   fi
-  chmod +x "$dest/scripts/"*.sh 2>/dev/null || true
+  if [ -d "$SCRIPT_DIR/tests" ]; then
+    cp -r "$SCRIPT_DIR/tests" "$dest/"
+    chmod +x "$dest/tests/"* 2>/dev/null || true
+  fi
+  chmod +x "$dest/scripts/"* 2>/dev/null || true
   echo "    Done."
 }
 
@@ -65,6 +75,7 @@ fi
 echo "Installing ScrapeCraft globally..."
 copy_skill "$HOME/.claude/skills/scrapecraft"
 copy_skill "$HOME/.config/opencode/skills/scrapecraft"
+copy_skill "$HOME/.opencode/skills/scrapecraft"
 copy_skill "$HOME/.agents/skills/scrapecraft"
 
 echo ""

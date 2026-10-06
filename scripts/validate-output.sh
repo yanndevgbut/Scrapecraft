@@ -136,7 +136,7 @@ try:
 except Exception as e:
     print(f'FAIL: Data verification exception: {e}', file=sys.stderr)
     sys.exit(1)
-" 2>/dev/null; then
+"; then
         echo "OK: Normalization & data quality audit passed" >&2
     else
         echo "FAIL: Data quality audit failed" >&2

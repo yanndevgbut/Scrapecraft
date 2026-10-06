@@ -3,9 +3,7 @@
 <img src="assets/banner.jpg" alt="ScrapeCraft" width="640">
 
 
-# ScrapeCraft 
-
-
+# ScrapeCraft v2.7 Enterprise
 
 **A high-precision, production-grade web scraping AI agent skill with interactive decision gates.**
 
@@ -194,7 +192,7 @@ The `references/` directory contains 41 drill-down engineering specifications lo
 | `references/python-scraping.md` | Production Python CLI standard | `httpx`, `parsel`, `pydantic`, `argparse` |
 | `references/scrapy-architecture.md` | Distributed Scrapy crawling | `scrapy.Spider`, `CrawlerProcess`, Pipelines |
 | `references/playwright-deepdive.md` | Route aborting & CDP commands | Block images/CSS (80% bandwidth save), CDP |
-| `references/nodejs-scraping.md` | Production Node.js CLI standard | `cheerio`, `axios`, `got`, CLI args |
+| `references/nodejs-scraping.md` | Production Node.js CLI standard | `got-scraping`, `cheerio`, `axios`, CLI args |
 | `references/puppeteer-stealth.md` | Node.js stealth automation | `puppeteer-extra-plugin-stealth`, CDP |
 | `references/httpx-curl-cffi.md` | TLS JA3/JA4 browser impersonation | `curl_cffi` (Chrome 131 profile), HTTP/2 |
 
@@ -222,6 +220,8 @@ scrapecraft/
 ├── install.sh                        # Universal installer for Claude Code, OpenCode, and .agents
 ├── README.md                         # Project documentation and multi-agent setup guide
 ├── LICENSE                           # MIT License
+├── requirements.txt                  # Python scraping ecosystem dependencies
+├── package.json                      # Node.js ecosystem dependencies & npm scripts
 ├── .gitignore                        # Cache, environment, and temp directory exclusions
 ├── assets/
 │   └── banner.jpg                    # Repository hero banner
@@ -267,10 +267,12 @@ scrapecraft/
 │   ├── storage-database-pipelines.md # SQLite, PostgreSQL, DuckDB, Parquet
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
 │   └── error-correction.md           # Linear self-correction protocol (max 3 tries)
-└── scripts/
-    ├── proxy-checker.py              # 60-source proxy aggregator & live prober
-    ├── sandbox-run.sh                # Isolated script execution runner (45s timeout)
-    └── validate-output.sh            # Automated syntax, token, and data density auditor
+├── scripts/
+│   ├── proxy-checker.py              # 60-source proxy aggregator & live prober
+│   ├── sandbox-run.sh                # Isolated script execution runner (45s timeout)
+│   └── validate-output.sh            # Automated syntax, token, and data density auditor
+└── tests/
+    └── test-suite.sh                 # Comprehensive automated verification suite
 ```
 
 ---
@@ -311,6 +313,26 @@ cd scrapecraft
 
 # Or install into a custom location:
 ./install.sh --dir /custom/skills/path
+```
+
+### Ecosystem Dependencies & Verification
+
+Install ecosystem dependencies based on your environment:
+
+```bash
+# Python dependencies:
+pip install -r requirements.txt
+
+# Node.js dependencies:
+npm install
+```
+
+Run the built-in automated test suite:
+
+```bash
+bash tests/test-suite.sh
+# Or using npm:
+npm test
 ```
 
 ---

@@ -1,0 +1,22 @@
+# ScrapeCraft Python Scraping Ecosystem Dependencies
+# Core HTTP & Parsing
+httpx>=0.27.0
+parsel>=1.9.0
+selectolax>=0.3.21
+
+# Browser Automation & Stealth
+playwright>=1.42.0
+curl_cffi>=0.6.2
+
+# Schema Validation & ETL
+pydantic>=2.6.0
+
+# Document & Media Pipelines
+pdfplumber>=0.11.0
+pypdf>=4.1.0
+
+# Streaming & Concurrency
+websockets>=12.0
+
+# Optional Advanced Data Stores
+duckdb>=0.10.0

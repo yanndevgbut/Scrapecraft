@@ -30,11 +30,11 @@ Before deploying scraping code at production scale, the **Stealth & Evasion Engi
 ```
 Is the Target Protected?
 ├── Level 1: Open / Unprotected
-│   └── Architecture: Standard httpx / axios with realistic User-Agent and jitter delays
+│   └── Architecture: Standard httpx / got-scraping / cheerio with realistic User-Agent and jitter delays
 ├── Level 2: Rate-Limited (HTTP 429)
-│   └── Architecture: Token bucket rate limiter, exponential backoff, User-Agent rotation
+│   └── Architecture: Token bucket rate limiter, exponential backoff, auto-proxy rotation
 ├── Level 3: Cloudflare / WAF Protected (JS Challenges)
-│   └── Architecture: curl_cffi (impersonate='chrome131') + full header set
+│   └── Architecture: curl_cffi (Python) / got-scraping (Node.js) + full header set
 ├── Level 4: Cloudflare Turnstile / Advanced CAPTCHA
 │   └── Architecture: Playwright with Stealth plugins + dynamic wait for challenge resolution
 └── Level 5: High-Frequency Enterprise Crawl

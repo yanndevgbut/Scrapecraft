@@ -1,0 +1,32 @@
+{
+  "name": "scrapecraft",
+  "version": "2.7.0",
+  "description": "Production-ready, resilient web scraping AI agent skill with virtual dev team and auto-proxy engine",
+  "main": "scripts/sandbox-run.sh",
+  "scripts": {
+    "test": "bash tests/test-suite.sh",
+    "proxy:check": "python3 scripts/proxy-checker.py",
+    "validate": "bash scripts/validate-output.sh"
+  },
+  "keywords": [
+    "scraping",
+    "web-scraper",
+    "agent-skill",
+    "opencode",
+    "claude-code",
+    "codex",
+    "playwright",
+    "cheerio",
+    "got-scraping"
+  ],
+  "author": "yanndevgbut",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "cheerio": "^1.0.0-rc.12",
+    "got-scraping": "^4.0.5",
+    "playwright": "^1.42.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

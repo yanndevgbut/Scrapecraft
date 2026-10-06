@@ -2,7 +2,7 @@
 set -euo pipefail
 
 TIMEOUT_SECONDS="${1:-45}"
-SCRIPT_PATH="${2:?Usage: sandbox-run.sh [timeout] <script-path>}"
+SCRIPT_PATH="${2:?Usage: sandbox-run.sh [timeout] <script-path> [args...]}"
 SESSION_DIR=$(mktemp -d /tmp/scrapecraft_XXXXXX)
 
 cleanup() {
@@ -43,7 +43,7 @@ OUTPUT_FILE="$SESSION_DIR/output.json"
 STDERR_FILE="$SESSION_DIR/stderr.log"
 
 EXIT_CODE=0
-timeout "$TIMEOUT_SECONDS" "$RUNNER" "$SESSION_DIR/$SCRIPT_NAME" \
+timeout "$TIMEOUT_SECONDS" "$RUNNER" "$SESSION_DIR/$SCRIPT_NAME" "${@:3}" \
     > "$OUTPUT_FILE" \
     2> "$STDERR_FILE" \
     || EXIT_CODE=$?

@@ -6,7 +6,13 @@ import re
 import sys
 import time
 from urllib.parse import urlsplit
-import httpx
+
+try:
+    import httpx
+except ImportError:
+    print("ERROR: 'httpx' is required to run proxy-checker.py.", file=sys.stderr)
+    print("Install dependencies with: pip install -r requirements.txt (or: pip install httpx)", file=sys.stderr)
+    sys.exit(1)
 
 ALL_PROXY_SOURCES = [
     # SOCKS5 Endpoints

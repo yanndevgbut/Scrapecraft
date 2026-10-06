@@ -182,25 +182,25 @@ main().catch((err) => {
 
 ```
 Is the site protected?
-├── No → Use standard httpx/axios
+├── No → Use standard httpx / got-scraping / cheerio
 ├── Cloudflare (JS challenge only)
-│   ├── Try curl_cffi with impersonate first
+│   ├── Try curl_cffi with impersonate first (Python) or got-scraping (Node.js)
 │   └── If blocked → Stealth Playwright
 ├── Cloudflare (Turnstile CAPTCHA)
 │   ├── Stealth Playwright + manual wait for challenge
 │   └── Report to user if unsolvable
 ├── DataDome / PerimeterX
-│   ├── curl_cffi with impersonate
+│   ├── curl_cffi with impersonate (Python) or got-scraping (Node.js)
 │   └── If blocked → Stealth Playwright with init scripts
 └── Rate limiting (429)
     ├── Add delays (1.5-3s between requests)
     ├── Rotate User-Agent per request
-    └── If persistent → Report to user, suggest proxy rotation
+    └── If persistent → Use 60-source auto-proxy pool (see references/free-proxy-engine.md)
 ```
 
 ## Important Notes
 
-- Proxy rotation is beyond MVP scope. If needed, instruct the user to provide proxy configuration.
+- Proxy rotation: Built-in 60-source proxy engine available via scripts/proxy-checker.py.
 - Never attempt to solve CAPTCHAs automatically. Report to the user and suggest alternative approaches.
 - Always respect `robots.txt` where applicable and note when a site explicitly forbids scraping.
 - If a site requires authentication, ask the user for credentials. Never attempt to bypass login systems.
