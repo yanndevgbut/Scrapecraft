@@ -3,7 +3,7 @@
 <img src="assets/banner.jpg" alt="ScrapeCraft" width="640">
 
 
-# ScrapeCraft v2.7 Enterprise
+# ScrapeCraft
 
 **A high-precision, production-grade web scraping AI agent skill with interactive decision gates.**
 
