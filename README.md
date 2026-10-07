@@ -16,7 +16,7 @@ Eliminates selector hallucinations, simulated mock data, nested try-catch maskin
 [![Repo Size](https://img.shields.io/github/repo-size/yanndevgbut/scrapecraft?style=flat-square)](https://github.com/yanndevgbut/scrapecraft)
 [![License](https://img.shields.io/github/license/yanndevgbut/scrapecraft?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Interactive Protocol](#interactive-language-selection-gate) · [41 Playbooks](#41-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
+[Overview](#overview) · [Virtual Dev Team](#virtual-dev-team-architecture) · [Requirements Gates](#3-gate-requirements-discovery) · [47 Playbooks](#47-specialized-engineering-playbooks) · [Structure](#repository-structure) · [Installation](#installation) · [Workflow](#execution-workflow) · [Quality Policy](#quality--accuracy-policy) · [Contributing](#contributing)
 
 </div>
 
@@ -93,70 +93,81 @@ AI coding agents frequently generate fragile, non-functional web scraping script
 
 ---
 
-## Interactive Language Selection Gate
+## 3-Gate Requirements Discovery
 
-ScrapeCraft **strictly forbids generating code prematurely**. When you submit a scraping request, the agent follows this interactive flow:
+ScrapeCraft **strictly forbids generating code prematurely**. Instead of a single language question, the agent runs a structured **10-question discovery across 3 gates** so the delivered scraper matches exactly what you want:
 
 ```
 [ User Request Target ]
-           │
-           ▼
-┌──────────────────────────────────────┐
-│  Phase 1: Parse & Clarify Schema     │
-└──────────────────────────────────────┘
-           │
-           ▼
-┌──────────────────────────────────────┐
-│  Phase 2: Target Reconnaissance      │ ── Silent inspection (SSR State, API, DOM, Anti-Bot)
-└──────────────────────────────────────┘
-           │
-           ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│  Phase 3: Recon Dossier & MANDATORY LANGUAGE SELECTION GATE [HARD STOP] │
-│                                                                         │
-│  1. Agent presents the Reconnaissance Dossier findings.                 │
-│  2. Agent provides 1-sentence technical recommendation.                 │
-│  3. Agent prompts user: "Which language would you like to use?"         │
-│     - Option 1: Python (Recommended)                                    │
-│     - Option 2: Node.js (JavaScript)                                    │
-│                                                                         │
-│  [STOP] HALTS AND WAITS FOR USER CONFIRMATION BEFORE GENERATING ANY CODE [STOP]  │
-└─────────────────────────────────────────────────────────────────────────┘
-           │
-           ▼ (User confirms/selects language)
-┌──────────────────────────────────────┐
-│  Phase 4: Write Production CLI Code  │
-└──────────────────────────────────────┘
-           │
-           ▼
-┌──────────────────────────────────────┐
-│  Phase 5 & 6: Sandbox Run & Validate │
-└──────────────────────────────────────┘
-           │
-           ▼
-┌──────────────────────────────────────┐
-│  Phase 7: Deliver Final Tested Code  │
-└──────────────────────────────────────┘
+           |
+           v
++--------------------------------------+
+| GATE 1: DATA REQUIREMENTS (Q1-Q3)    |
+| Q1 What fields to scrape?            |
+| Q2 Coverage: 1 page / N / all pages? |
+| Q3 Filters or categories?            |
+| [STOP] Halts until you answer        |
++--------------------------------------+
+           |
+           v
++--------------------------------------+
+| [Silent Reconnaissance]              |
+| SSR state, APIs, bootstrap keys, WAF |
++--------------------------------------+
+           |
+           v
++--------------------------------------+
+| GATE 2: TECHNICAL STACK (Q4-Q7)      |
+| Q4 Language (with recommendation)    |
+| Q5 Output: JSON/JSONL/CSV/SQLite     |
+| Q6 Stealth: UA/TLS/proxy/stealth     |
+| Q7 Rate: safe/normal/fast            |
+| [STOP] Halts until you answer        |
++--------------------------------------+
+           |
+           v
++--------------------------------------+
+| GATE 3: RUNTIME EXPERIENCE (Q8-Q10)  |
+| Q8 Interactive menu when run?        |
+| Q9 Menu features (search/export/...) |
+| Q10 Logging: normal/debug/quiet      |
+| [STOP] Halts until you answer        |
++--------------------------------------+
+           |
+           v
++--------------------------------------+
+| Write Code -> Sandbox -> Validate    |
+| -> Deliver tested scraper            |
++--------------------------------------+
 ```
+
+Each gate is sent as **one `question` tool call** containing all its questions (never one-by-one). If you say "you decide", documented defaults apply and are stated in one sentence. Menu builds follow the templates in `references/interactive-cli-menu.md`.
 
 ---
 
-## 41 Specialized Engineering Playbooks
+## 47 Specialized Engineering Playbooks
 
-The `references/` directory contains 41 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
+The `references/` directory contains 47 drill-down engineering specifications loaded on demand by the agent to conserve context window while providing expert-grade depth:
 
-### 1. Core Architecture & Workflow
+### 1. Requirements Discovery & Interaction
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
-| `references/workflow.md` | 8-phase execution lifecycle | End-to-end task orchestration with Language Gate |
+| `references/requirements-gathering.md` | 3-gate questionnaire catalog (Q1-Q10) | Question tool schemas, grouping & defaults |
+| `references/interactive-question-protocol.md` | Decision gate mechanics | Multi-question tool calls, terminal fallback |
+| `references/interactive-cli-menu.md` | Interactive runtime menus | Python input loop, Node.js readline, mixed mode |
+| `references/workflow.md` | 8-phase execution lifecycle | End-to-end orchestration with 3 gates |
 | `references/dev-team-architecture.md` | Multi-role virtual team protocol | Handover contracts & quality gates |
-| `references/interactive-question-protocol.md` | Interactive decision gates | Question tool schemas & terminal prompts |
 | `references/recon-report.md` | Reconnaissance Dossier template | Architectural classification & evidence logging |
-| `references/browser-inspection.md` | Live DOM & network panel analysis | Headless browser DOM capture |
-| `references/resilient-selectors.md` | 4-tier fallback selector hierarchy | Data attributes, BEM classes, XPath anchors |
-| `references/self-healing-code.md` | Dynamic selector auto-discovery | Heuristic card detection & attribute fallbacks |
 
-### 2. Domain-Specific Data Scraping
+### 2. Internal API Mastery
+| Playbook | Focus Area | Key Technologies |
+|---|---|---|
+| `references/internal-api-bootstrap.md` | Session credential harvesting | API key/context/visitor token extraction |
+| `references/client-identity-spoofing.md` | Client identity consistency | clientName/clientVersion/UA matrix |
+| `references/json-tree-parsing.md` | Deep JSON tree parsing | Recursive finders, multi-shape parsers, dedup |
+| `references/multi-endpoint-orchestration.md` | Class-based session scrapers | Endpoint flows, retry rules, re-bootstrap |
+
+### 3. Domain-Specific Data Scraping
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/domain-ecommerce.md` | Catalogs, variants, stock, reviews | Shopify JSON, Amazon, Shopee, Tokopedia |
@@ -168,9 +179,12 @@ The `references/` directory contains 41 drill-down engineering specifications lo
 | `references/domain-travel-hospitality.md` | Hotel date matrices, room availability | Booking.com, Agoda, LodgingBusiness Schema |
 | `references/domain-directories-leads.md` | Business directories, emails, phones | LocalBusiness Schema, E.164 phone cleaner |
 
-### 3. Extraction Strategies & Network Protocols
+### 4. Core Extraction
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
+| `references/browser-inspection.md` | Live DOM & network panel analysis | Headless browser DOM capture |
+| `references/resilient-selectors.md` | 4-tier fallback selector hierarchy | Data attributes, BEM classes, XPath anchors |
+| `references/self-healing-code.md` | Dynamic selector auto-discovery | Heuristic card detection & attribute fallbacks |
 | `references/state-extraction.md` | SSR hydration state parsing | Next.js `__NEXT_DATA__`, Nuxt, JSON-LD |
 | `references/api-sniffing.md` | Reverse-engineering hidden REST APIs | XHR/Fetch network interception |
 | `references/graphql-scraping.md` | GraphQL queries & cursor pagination | GraphQL POST operations & variables |
@@ -179,14 +193,14 @@ The `references/` directory contains 41 drill-down engineering specifications lo
 | `references/pagination-patterns.md` | Cursors, offset/pages, infinite scroll | Next-link traversal, dynamic scroll wait |
 | `references/authentication-sessions.md` | Persistent login sessions & cookies | Playwright `storage_state`, session cookies |
 
-### 4. Documents & Media Pipelines
+### 5. Documents & Media Pipelines
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/document-pdf-table-extraction.md` | Tabular PDF extraction | `pdfplumber`, `pypdf`, stream parsing |
 | `references/xml-sitemap-rss-scraping.md` | Mass URL discovery & RSS feeds | `sitemap.xml`, sitemap index, Atom feeds |
 | `references/media-asset-downloading.md` | Chunked high-res media streams | Async chunked downloading, MD5 hashing |
 
-### 5. Frameworks & Libraries
+### 6. Frameworks & Libraries
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/python-scraping.md` | Production Python CLI standard | `httpx`, `parsel`, `pydantic`, `argparse` |
@@ -196,7 +210,7 @@ The `references/` directory contains 41 drill-down engineering specifications lo
 | `references/puppeteer-stealth.md` | Node.js stealth automation | `puppeteer-extra-plugin-stealth`, CDP |
 | `references/httpx-curl-cffi.md` | TLS JA3/JA4 browser impersonation | `curl_cffi` (Chrome 131 profile), HTTP/2 |
 
-### 6. Anti-Detection, Proxies & Quality Control
+### 7. Anti-Detection, Proxies & Quality Control
 | Playbook | Focus Area | Key Technologies |
 |---|---|---|
 | `references/anti-detection.md` | Cloudflare Turnstile & WAF bypass | Fingerprint spoofing, header ordering |
@@ -225,10 +239,16 @@ scrapecraft/
 ├── .gitignore                        # Cache, environment, and temp directory exclusions
 ├── assets/
 │   └── banner.jpg                    # Repository hero banner
-├── references/                       # 41 Specialized engineering playbooks
-│   ├── workflow.md                   # 8-phase execution lifecycle with Language Gate
+├── references/                       # 47 Specialized engineering playbooks
+│   ├── requirements-gathering.md     # 3-gate questionnaire catalog (Q1-Q10)
+│   ├── interactive-question-protocol.md # Decision gate mechanics & tool schemas
+│   ├── interactive-cli-menu.md       # Interactive runtime menu templates
+│   ├── internal-api-bootstrap.md     # Session credential harvesting pattern
+│   ├── client-identity-spoofing.md   # Client identity matrix per platform
+│   ├── json-tree-parsing.md          # Deep JSON tree parsers & dedup
+│   ├── multi-endpoint-orchestration.md # Class-based session scraper flows
+│   ├── workflow.md                   # 8-phase execution lifecycle with 3 gates
 │   ├── dev-team-architecture.md      # 6-role virtual team protocol
-│   ├── interactive-question-protocol.md # Interactive decision gate schemas
 │   ├── recon-report.md               # Reconnaissance Dossier template
 │   ├── browser-inspection.md         # Live DOM & network panel analysis
 │   ├── resilient-selectors.md        # 4-tier fallback selector hierarchy
@@ -254,7 +274,7 @@ scrapecraft/
 │   ├── python-scraping.md            # Python CLI architecture (httpx, parsel)
 │   ├── scrapy-architecture.md        # Standalone Scrapy spiders & pipelines
 │   ├── playwright-deepdive.md        # Route aborts, CDP commands, wait strategies
-│   ├── nodejs-scraping.md            # Node.js CLI architecture (cheerio, axios)
+│   ├── nodejs-scraping.md            # Node.js CLI architecture (got-scraping, cheerio)
 │   ├── puppeteer-stealth.md          # Puppeteer Extra Stealth & evasion
 │   ├── httpx-curl-cffi.md            # TLS JA3/JA4 browser impersonation
 │   ├── anti-detection.md             # Cloudflare Turnstile & WAF bypass
@@ -268,6 +288,7 @@ scrapecraft/
 │   ├── validation.md                 # 6-stage pre-delivery quality pipeline
 │   └── error-correction.md           # Linear self-correction protocol (max 3 tries)
 ├── scripts/
+│   ├── json-explorer.py              # Unknown JSON tree mapper (stdlib-only)
 │   ├── proxy-checker.py              # 60-source proxy aggregator & live prober
 │   ├── sandbox-run.sh                # Isolated script execution runner (45s timeout)
 │   └── validate-output.sh            # Automated syntax, token, and data density auditor
